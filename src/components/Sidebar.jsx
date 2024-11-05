@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useUserPreferences } from '../context/UserPreferencesContext';
 
 const Sidebar = ({ isExpanded, setIsExpanded, isMobile }) => {
   const location = useLocation();
+  const { preferences, updatePreference } = useUserPreferences();
 
   const isActive = (path) => {
     return location.pathname === path ? 'bg-gray-700' : '';
@@ -13,6 +15,12 @@ const Sidebar = ({ isExpanded, setIsExpanded, isMobile }) => {
     if (isMobile) {
       setIsExpanded(false);
     }
+  };
+
+  // Update sidebar state in preferences
+  const handleExpandToggle = () => {
+    setIsExpanded(!isExpanded);
+    updatePreference('sidebarExpanded', !isExpanded);
   };
 
   const menuItems = [
@@ -143,7 +151,7 @@ const Sidebar = ({ isExpanded, setIsExpanded, isMobile }) => {
             </h1>
             {!isMobile && (
               <button 
-                onClick={() => setIsExpanded(!isExpanded)}
+                onClick={handleExpandToggle}
                 className="p-2 rounded-lg hover:bg-gray-700 focus:outline-none"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

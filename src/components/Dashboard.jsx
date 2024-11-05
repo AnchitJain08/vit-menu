@@ -10,6 +10,9 @@ import Terms from './Terms';
 import Privacy from './Privacy';
 import Contact from './Contact';
 import Analytics from './Analytics';
+import { VegModeProvider } from '../context/VegModeContext';
+import VegModeToggle from './VegModeToggle';
+import { UserPreferencesProvider } from '../context/UserPreferencesContext';
 
 const Dashboard = () => {
   const [isExpanded, setIsExpanded] = useState(window.innerWidth >= 768);
@@ -33,28 +36,33 @@ const Dashboard = () => {
 
   return (
     <Router>
-      <div className="flex flex-col md:flex-row min-h-screen">
-        <Sidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} isMobile={isMobile} />
-        <div className={`flex-1 transition-all duration-300 ${isExpanded ? 'md:ml-64' : 'md:ml-20'}`}>
-          <main className="bg-gray-50 min-h-screen">
-            <div className={`container mx-auto px-4 transition-all duration-300 
-                           ${isExpanded ? 'max-w-[2000px]' : 'max-w-[2200px]'}`}>
-              <Routes>
-                <Route path="/" element={<Navigate to="/analytics" replace />} />
-                <Route path="/analytics" element={<Analytics />} />
-                <Route path="/underbelly" element={<UnderBelly />} />
-                <Route path="/mayuri" element={<Mayuri />} />
-                <Route path="/crcl" element={<CRCL />} />
-                <Route path="/hostel-mess" element={<HostelMess />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/terms" element={<Terms />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/contact" element={<Contact />} />
-              </Routes>
+      <UserPreferencesProvider>
+        <VegModeProvider>
+          <div className="flex flex-col md:flex-row min-h-screen">
+            <Sidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} isMobile={isMobile} />
+            <div className={`flex-1 transition-all duration-300 ${isExpanded ? 'md:ml-64' : 'md:ml-20'}`}>
+              <VegModeToggle />
+              <main className="bg-gray-50 min-h-screen">
+                <div className={`container mx-auto px-4 transition-all duration-300 
+                               ${isExpanded ? 'max-w-[2000px]' : 'max-w-[2200px]'}`}>
+                  <Routes>
+                    <Route path="/" element={<Navigate to="/analytics" replace />} />
+                    <Route path="/analytics" element={<Analytics />} />
+                    <Route path="/underbelly" element={<UnderBelly />} />
+                    <Route path="/mayuri" element={<Mayuri />} />
+                    <Route path="/crcl" element={<CRCL />} />
+                    <Route path="/hostel-mess" element={<HostelMess />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/terms" element={<Terms />} />
+                    <Route path="/privacy" element={<Privacy />} />
+                    <Route path="/contact" element={<Contact />} />
+                  </Routes>
+                </div>
+              </main>
             </div>
-          </main>
-        </div>
-      </div>
+          </div>
+        </VegModeProvider>
+      </UserPreferencesProvider>
     </Router>
   );
 };

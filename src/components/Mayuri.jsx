@@ -3,9 +3,11 @@ import { FaPizzaSlice } from 'react-icons/fa';
 import { GiNoodles, GiFruitBowl, GiChickenOven, GiBreadSlice } from 'react-icons/gi';
 import { BiDish } from 'react-icons/bi';
 import MobileMenu from './MobileMenu';
+import { useVegMode } from '../context/VegModeContext';
 
 const Mayuri = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const { isVegMode } = useVegMode();
 
   const getIconForSection = (key) => ({
     freshItems: <GiFruitBowl className="w-6 h-6" />,
@@ -97,9 +99,11 @@ const Mayuri = () => {
   };
 
   const filteredMenu = Object.entries(menu).reduce((acc, [key, section]) => {
-    const filteredItems = section.items.filter(item => 
-      item.name.toLowerCase().includes(searchTerm)
-    );
+    const filteredItems = section.items.filter(item => {
+      const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesVegMode = isVegMode ? item.isVeg : true;
+      return matchesSearch && matchesVegMode;
+    });
     
     if (filteredItems.length > 0) {
       acc[key] = {
@@ -114,9 +118,9 @@ const Mayuri = () => {
     <div className="p-4">
       <h2 className="text-xl md:text-2xl font-bold mb-6">Mayuri Restaurant</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
-        {Object.entries(searchTerm ? filteredMenu : menu).map(([key, section]) => (
+        {Object.entries(searchTerm || isVegMode ? filteredMenu : menu).map(([key, section]) => (
           <div 
-            key={key} 
+            key={key}
             id={section.title.toLowerCase().replace(/\s+/g, '-')}
             className="bg-white rounded-lg shadow-md overflow-hidden transform hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
           >

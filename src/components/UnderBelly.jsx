@@ -3,9 +3,11 @@ import { FaPizzaSlice, FaCoffee, FaGlassWhiskey } from 'react-icons/fa';
 import { GiNoodles, GiBreadSlice, GiCakeSlice } from 'react-icons/gi';
 import { BiDrink } from 'react-icons/bi';
 import MobileMenu from './MobileMenu';
+import { useVegMode } from '../context/VegModeContext';
 
 const UnderBelly = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const { isVegMode } = useVegMode();
 
   const getIconForSection = (key) => ({
     rolls: <GiBreadSlice className="w-6 h-6" />,
@@ -119,9 +121,11 @@ const UnderBelly = () => {
   };
 
   const filteredMenu = Object.entries(menu).reduce((acc, [key, section]) => {
-    const filteredItems = section.items.filter(item => 
-      item.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredItems = section.items.filter(item => {
+      const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesVegMode = isVegMode ? item.isVeg : true;
+      return matchesSearch && matchesVegMode;
+    });
     
     if (filteredItems.length > 0) {
       acc[key] = {
@@ -149,7 +153,7 @@ const UnderBelly = () => {
     <div className="p-4">
       <h2 className="text-xl md:text-2xl font-bold mb-6">Under Belly Cafe</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
-        {Object.entries(searchTerm ? filteredMenu : menu).map(([key, section]) => (
+        {Object.entries(searchTerm || isVegMode ? filteredMenu : menu).map(([key, section]) => (
           <div 
             key={key}
             id={section.title.toLowerCase().replace(/\s+/g, '-')}
