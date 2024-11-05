@@ -1,0 +1,113 @@
+import React from 'react';
+import { FaPizzaSlice } from 'react-icons/fa';
+import { GiNoodles, GiFruitBowl, GiChickenOven, GiBreadSlice } from 'react-icons/gi';
+import { BiDish } from 'react-icons/bi';
+
+const Mayuri = () => {
+  const getIconForSection = (key) => ({
+    freshItems: <GiFruitBowl className="w-6 h-6" />,
+    tandoori: <GiChickenOven className="w-6 h-6" />,
+    pasta: <GiNoodles className="w-6 h-6" />,
+    pizza: <FaPizzaSlice className="w-6 h-6" />,
+    chinese: <GiNoodles className="w-6 h-6" />,
+    mainCourse: <BiDish className="w-6 h-6" />,
+    breads: <GiBreadSlice className="w-6 h-6" />
+  }[key] || null);
+
+  const menu = {
+    freshItems: {
+      title: "Fresh Items",
+      items: [
+        { name: "Fresh Lime Water", price: "₹60", isVeg: true },
+        { name: "Fresh Lime Soda", price: "₹80", isVeg: true },
+        { name: "Fresh Fruits Salad", price: "₹80", isVeg: true }
+      ]
+    },
+    tandoori: {
+      title: "Tandoori",
+      items: [
+        { name: "Soya Masala Tikka", price: "₹120", isVeg: true },
+        { name: "Soya Malai Tikka", price: "₹130", isVeg: true },
+        { name: "Paneer Tikka Masala", price: "₹140", isVeg: true },
+        { name: "Paneer Malai Tikka", price: "₹150", isVeg: true }
+      ]
+    },
+    pasta: {
+      title: "Pasta",
+      items: [
+        { name: "Arrabiata Pasta (Red)", price: "₹130", isVeg: true },
+        { name: "Alfredo Pasta (White)", price: "₹150", isVeg: true }
+      ]
+    },
+    pizza: {
+      title: "Pizza",
+      items: [
+        { name: "Cheese Corn Pizza", price: "₹130", isVeg: true },
+        { name: "Farm House Pizza", price: "₹150", isVeg: true },
+        { name: "Tandoori Paneer Pizza", price: "₹180", isVeg: true }
+      ]
+    },
+    chinese: {
+      title: "Chinese",
+      items: [
+        { name: "Veg. Manchurian", price: "₹100", isVeg: true },
+        { name: "Fried Rice", price: "₹110", isVeg: true },
+        { name: "Veg. Hakka Noodles", price: "₹110", isVeg: true },
+        { name: "Veg. Schezwan Noodles", price: "₹120", isVeg: true },
+        { name: "Chilli Paneer", price: "₹130", isVeg: true }
+      ]
+    },
+    mainCourse: {
+      title: "Main Course",
+      items: [
+        { name: "Kadhai Paneer", price: "₹130", isVeg: true },
+        { name: "Butter Paneer Masala", price: "₹140", isVeg: true },
+        { name: "Paneer Lababdar", price: "₹150", isVeg: true }
+      ]
+    },
+    breads: {
+      title: "Breads",
+      items: [
+        { name: "Tandoori Roti", price: "₹20", isVeg: true },
+        { name: "Tandoori Butter Roti", price: "₹25", isVeg: true },
+        { name: "Naan", price: "₹25", isVeg: true },
+        { name: "Butter Naan", price: "₹30", isVeg: true },
+        { name: "Stuffed Kulcha", price: "₹40", isVeg: true },
+        { name: "Butter Garlic Naan", price: "₹40", isVeg: true },
+        { name: "Tandoori Paratha", price: "₹40", isVeg: true },
+        { name: "Stuffed Kulcha with Butter", price: "₹45", isVeg: true }
+      ]
+    }
+  };
+
+  return (
+    <div className="p-4">
+      <h2 className="text-xl md:text-2xl font-bold mb-6">Mayuri Restaurant</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+        {Object.entries(menu).map(([key, section]) => (
+          <div key={key} className="bg-white rounded-lg shadow-md overflow-hidden transform hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+            <div className="bg-gray-800 text-white px-4 py-3 flex items-center gap-2">
+              <span className="transform hover:scale-110 transition-transform duration-200">
+                {getIconForSection(key)}
+              </span>
+              <h3 className="text-lg font-semibold">{section.title}</h3>
+            </div>
+            <div className="p-4 space-y-2">
+              {section.items.map((item, index) => (
+                <div key={index} className="flex justify-between items-center p-2 hover:bg-gray-50 rounded hover:shadow-sm hover:scale-[1.01] transition-all duration-200">
+                  <span className="font-medium text-sm md:text-base flex items-center">
+                    <span className={`w-2 h-2 rounded-full mr-2 ${item.isVeg ? 'bg-green-500' : 'bg-red-500'}`}/>
+                    {item.name}
+                  </span>
+                  <span className="text-gray-700 text-sm md:text-base">{item.price}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Mayuri; 
