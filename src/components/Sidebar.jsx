@@ -8,6 +8,13 @@ const Sidebar = ({ isExpanded, setIsExpanded, isMobile }) => {
     return location.pathname === path ? 'bg-gray-700' : '';
   };
 
+  // Handle link click in mobile mode
+  const handleLinkClick = () => {
+    if (isMobile) {
+      setIsExpanded(false);
+    }
+  };
+
   const menuItems = [
     {
       section: "Dashboard",
@@ -159,6 +166,7 @@ const Sidebar = ({ isExpanded, setIsExpanded, isMobile }) => {
                   <Link 
                     key={item.path}
                     to={item.path}
+                    onClick={handleLinkClick}
                     className={`
                       flex items-center mb-1 rounded-lg transition-all duration-200
                       hover:bg-gray-700 ${isActive(item.path)}
@@ -191,6 +199,7 @@ const Sidebar = ({ isExpanded, setIsExpanded, isMobile }) => {
                 <Link
                   key={link.path}
                   to={link.path}
+                  onClick={handleLinkClick}
                   className="text-sm text-gray-400 hover:text-white transition-colors duration-200 px-2 py-1 rounded"
                 >
                   {link.name}

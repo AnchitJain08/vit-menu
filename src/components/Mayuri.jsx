@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaPizzaSlice } from 'react-icons/fa';
 import { GiNoodles, GiFruitBowl, GiChickenOven, GiBreadSlice } from 'react-icons/gi';
 import { BiDish } from 'react-icons/bi';
+import MobileMenu from './MobileMenu';
 
 const Mayuri = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+
   const getIconForSection = (key) => ({
     freshItems: <GiFruitBowl className="w-6 h-6" />,
     tandoori: <GiChickenOven className="w-6 h-6" />,
@@ -23,6 +26,14 @@ const Mayuri = () => {
         { name: "Fresh Fruits Salad", price: "₹80", isVeg: true }
       ]
     },
+    mainCourse: {
+      title: "Main Course",
+      items: [
+        { name: "Kadhai Paneer", price: "₹130", isVeg: true },
+        { name: "Butter Paneer Masala", price: "₹140", isVeg: true },
+        { name: "Paneer Lababdar", price: "₹150", isVeg: true }
+      ]
+    },
     tandoori: {
       title: "Tandoori",
       items: [
@@ -30,21 +41,6 @@ const Mayuri = () => {
         { name: "Soya Malai Tikka", price: "₹130", isVeg: true },
         { name: "Paneer Tikka Masala", price: "₹140", isVeg: true },
         { name: "Paneer Malai Tikka", price: "₹150", isVeg: true }
-      ]
-    },
-    pasta: {
-      title: "Pasta",
-      items: [
-        { name: "Arrabiata Pasta (Red)", price: "₹130", isVeg: true },
-        { name: "Alfredo Pasta (White)", price: "₹150", isVeg: true }
-      ]
-    },
-    pizza: {
-      title: "Pizza",
-      items: [
-        { name: "Cheese Corn Pizza", price: "₹130", isVeg: true },
-        { name: "Farm House Pizza", price: "₹150", isVeg: true },
-        { name: "Tandoori Paneer Pizza", price: "₹180", isVeg: true }
       ]
     },
     chinese: {
@@ -57,12 +53,19 @@ const Mayuri = () => {
         { name: "Chilli Paneer", price: "₹130", isVeg: true }
       ]
     },
-    mainCourse: {
-      title: "Main Course",
+    pizza: {
+      title: "Pizza",
       items: [
-        { name: "Kadhai Paneer", price: "₹130", isVeg: true },
-        { name: "Butter Paneer Masala", price: "₹140", isVeg: true },
-        { name: "Paneer Lababdar", price: "₹150", isVeg: true }
+        { name: "Cheese Corn Pizza", price: "₹130", isVeg: true },
+        { name: "Farm House Pizza", price: "₹150", isVeg: true },
+        { name: "Tandoori Paneer Pizza", price: "₹180", isVeg: true }
+      ]
+    },
+    pasta: {
+      title: "Pasta",
+      items: [
+        { name: "Arrabiata Pasta (Red)", price: "₹130", isVeg: true },
+        { name: "Alfredo Pasta (White)", price: "₹150", isVeg: true }
       ]
     },
     breads: {
@@ -80,12 +83,43 @@ const Mayuri = () => {
     }
   };
 
+  const scrollToSection = (sectionTitle) => {
+    const element = document.getElementById(sectionTitle.toLowerCase().replace(/\s+/g, '-'));
+    if (element) {
+      const yOffset = -80;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
+  const handleSearch = (term) => {
+    setSearchTerm(term.toLowerCase());
+  };
+
+  const filteredMenu = Object.entries(menu).reduce((acc, [key, section]) => {
+    const filteredItems = section.items.filter(item => 
+      item.name.toLowerCase().includes(searchTerm)
+    );
+    
+    if (filteredItems.length > 0) {
+      acc[key] = {
+        ...section,
+        items: filteredItems
+      };
+    }
+    return acc;
+  }, {});
+
   return (
     <div className="p-4">
       <h2 className="text-xl md:text-2xl font-bold mb-6">Mayuri Restaurant</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
-        {Object.entries(menu).map(([key, section]) => (
-          <div key={key} className="bg-white rounded-lg shadow-md overflow-hidden transform hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+        {Object.entries(searchTerm ? filteredMenu : menu).map(([key, section]) => (
+          <div 
+            key={key} 
+            id={section.title.toLowerCase().replace(/\s+/g, '-')}
+            className="bg-white rounded-lg shadow-md overflow-hidden transform hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
+          >
             <div className="bg-gray-800 text-white px-4 py-3 flex items-center gap-2">
               <span className="transform hover:scale-110 transition-transform duration-200">
                 {getIconForSection(key)}
@@ -106,6 +140,13 @@ const Mayuri = () => {
           </div>
         ))}
       </div>
+
+      {/* Mobile Menu with Search */}
+      <MobileMenu 
+        sections={Object.values(menu).map(section => section.title)}
+        onSectionClick={scrollToSection}
+        onSearch={handleSearch}
+      />
     </div>
   );
 };

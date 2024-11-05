@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaPizzaSlice, FaCoffee, FaGlassWhiskey } from 'react-icons/fa';
 import { GiNoodles, GiBreadSlice, GiCakeSlice } from 'react-icons/gi';
 import { BiDrink } from 'react-icons/bi';
+import MobileMenu from './MobileMenu';
 
 const UnderBelly = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+
   const getIconForSection = (key) => ({
     rolls: <GiBreadSlice className="w-6 h-6" />,
     chinese: <GiNoodles className="w-6 h-6" />,
@@ -15,35 +18,6 @@ const UnderBelly = () => {
   }[key] || null);
 
   const menu = {
-    rolls: {
-      title: "Rolls & Buns",
-      items: [
-        { name: "VEG PLAIT", price: "₹42", isVeg: true },
-        { name: "VEG SUB ROLL", price: "₹42", isVeg: true },
-        { name: "VEG TURNOVER", price: "₹32", isVeg: true },
-        { name: "CHILLY CHEESE PLAIT", price: "₹53", isVeg: true },
-        { name: "PANEER PIZZA BUN", price: "₹47", isVeg: true },
-        { name: "VEG CRISPY ROLL", price: "₹42", isVeg: true },
-        { name: "CHICKEN TURNOVER", price: "₹42", isVeg: false },
-        { name: "CHICKEN PIZZA BUN", price: "₹53", isVeg: false },
-        { name: "CHICKEN SUB ROLL", price: "₹53", isVeg: false }
-      ]
-    },
-    chinese: {
-      title: "CHINESE",
-      items: [
-        { name: "VEG NOODLES", price: "₹130", isVeg: true },
-        { name: "VEG FRIED RICE", price: "₹130", isVeg: true },
-        { name: "CHICKEN NOODLES", price: "₹142", isVeg: false },
-        { name: "CHICKEN FRIED RICE", price: "₹142", isVeg: false },
-        { name: "SCHEZWAN VEG NOODLES", price: "₹131", isVeg: true },
-        { name: "SCHEZWAN VEG FRIED RICE", price: "₹131", isVeg: true },
-        { name: "SCHEZWAN CHICKEN FRIED RICE", price: "₹152", isVeg: false },
-        { name: "EGG FRIED RICE", price: "₹142", isVeg: false },
-        { name: "PANEER FRIED RICE", price: "₹160", isVeg: true },
-        { name: "SCHEZWAN CHICKEN NOODLES", price: "₹152", isVeg: false }
-      ]
-    },
     hotBeverages: {
       title: "HOT BEVERAGES",
       items: [
@@ -84,14 +58,6 @@ const UnderBelly = () => {
         { name: "LEMON ICE TEA SMALL", price: "₹42", isVeg: true }
       ]
     },
-    soyaChaap: {
-      title: "SOYA CHAAP",
-      items: [
-        { name: "TANDOORI SOYA CHAAP", price: "₹150", isVeg: true },
-        { name: "ACHARI SOYA CHAAP", price: "₹150", isVeg: true },
-        { name: "MALAI SOYA CHAAP", price: "₹160", isVeg: true }
-      ]
-    },
     pizza: {
       title: "PIZZA",
       items: [
@@ -103,6 +69,35 @@ const UnderBelly = () => {
         { name: "UB SPECIAL NON VEG PIZZA", price: "₹230", isVeg: false },
         { name: "CHICKEN TIKKA PIZZA", price: "₹230", isVeg: false },
         { name: "JALAPENO CHICKEN PIZZA", price: "₹230", isVeg: false }
+      ]
+    },
+    chinese: {
+      title: "CHINESE",
+      items: [
+        { name: "VEG NOODLES", price: "₹130", isVeg: true },
+        { name: "VEG FRIED RICE", price: "₹130", isVeg: true },
+        { name: "CHICKEN NOODLES", price: "₹142", isVeg: false },
+        { name: "CHICKEN FRIED RICE", price: "₹142", isVeg: false },
+        { name: "SCHEZWAN VEG NOODLES", price: "₹131", isVeg: true },
+        { name: "SCHEZWAN VEG FRIED RICE", price: "₹131", isVeg: true },
+        { name: "SCHEZWAN CHICKEN FRIED RICE", price: "₹152", isVeg: false },
+        { name: "EGG FRIED RICE", price: "₹142", isVeg: false },
+        { name: "PANEER FRIED RICE", price: "₹160", isVeg: true },
+        { name: "SCHEZWAN CHICKEN NOODLES", price: "₹152", isVeg: false }
+      ]
+    },
+    rolls: {
+      title: "Rolls & Buns",
+      items: [
+        { name: "VEG PLAIT", price: "₹42", isVeg: true },
+        { name: "VEG SUB ROLL", price: "₹42", isVeg: true },
+        { name: "VEG TURNOVER", price: "₹32", isVeg: true },
+        { name: "CHILLY CHEESE PLAIT", price: "₹53", isVeg: true },
+        { name: "PANEER PIZZA BUN", price: "₹47", isVeg: true },
+        { name: "VEG CRISPY ROLL", price: "₹42", isVeg: true },
+        { name: "CHICKEN TURNOVER", price: "₹42", isVeg: false },
+        { name: "CHICKEN PIZZA BUN", price: "₹53", isVeg: false },
+        { name: "CHICKEN SUB ROLL", price: "₹53", isVeg: false }
       ]
     },
     pastry: {
@@ -123,12 +118,43 @@ const UnderBelly = () => {
     }
   };
 
+  const filteredMenu = Object.entries(menu).reduce((acc, [key, section]) => {
+    const filteredItems = section.items.filter(item => 
+      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    
+    if (filteredItems.length > 0) {
+      acc[key] = {
+        ...section,
+        items: filteredItems
+      };
+    }
+    return acc;
+  }, {});
+
+  const scrollToSection = (sectionTitle) => {
+    const element = document.getElementById(sectionTitle.toLowerCase().replace(/\s+/g, '-'));
+    if (element) {
+      const yOffset = -80;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
+  const handleSearch = (term) => {
+    setSearchTerm(term.toLowerCase());
+  };
+
   return (
     <div className="p-4">
       <h2 className="text-xl md:text-2xl font-bold mb-6">Under Belly Cafe</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
-        {Object.entries(menu).map(([key, section]) => (
-          <div key={key} className="bg-white rounded-lg shadow-md overflow-hidden transform hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+        {Object.entries(searchTerm ? filteredMenu : menu).map(([key, section]) => (
+          <div 
+            key={key}
+            id={section.title.toLowerCase().replace(/\s+/g, '-')}
+            className="bg-white rounded-lg shadow-md overflow-hidden transform hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
+          >
             <div className="bg-gray-800 text-white px-4 py-3 flex items-center gap-2">
               <span className="transform hover:scale-110 transition-transform duration-200">
                 {getIconForSection(key)}
@@ -149,6 +175,13 @@ const UnderBelly = () => {
           </div>
         ))}
       </div>
+
+      {/* Mobile Menu with Search */}
+      <MobileMenu 
+        sections={Object.values(menu).map(section => section.title)}
+        onSectionClick={scrollToSection}
+        onSearch={handleSearch}
+      />
     </div>
   );
 };
