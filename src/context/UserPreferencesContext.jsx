@@ -64,4 +64,4 @@ export const UserPreferencesProvider = ({ children }) => {
   );
 };
 
-export const useUserPreferences = () => useContext(UserPreferencesContext); 
+export const useUserPreferences = () => useContext(UserPreferencesContext);

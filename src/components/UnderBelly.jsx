@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
-import { FaPizzaSlice, FaCoffee, FaGlassWhiskey } from 'react-icons/fa';
+import { FaPizzaSlice, FaCoffee, FaGlassWhiskey, FaStar } from 'react-icons/fa';
 import { GiNoodles, GiBreadSlice, GiCakeSlice } from 'react-icons/gi';
 import { BiDrink } from 'react-icons/bi';
 import MobileMenu from './MobileMenu';
 import { useVegMode } from '../context/VegModeContext';
+import { getCafeData } from '../utils/cafeData';
+import { useNavigate } from 'react-router-dom';
 
 const UnderBelly = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const { isVegMode } = useVegMode();
+  const navigate = useNavigate();
+  const cafeData = getCafeData("Under Belly Cafe");
 
   const getIconForSection = (key) => ({
     rolls: <GiBreadSlice className="w-6 h-6" />,
@@ -149,9 +153,35 @@ const UnderBelly = () => {
     setSearchTerm(term.toLowerCase());
   };
 
+  // Flatten menu items for search
+  const allMenuItems = Object.values(menu).reduce((items, section) => {
+    return [...items, ...section.items];
+  }, []);
+
+  const handleReviewClick = () => {
+    navigate('/underbelly/reviews', { 
+      state: { menuItems: allMenuItems }
+    });
+  };
+
   return (
     <div className="p-4">
-      <h2 className="text-xl md:text-2xl font-bold mb-6">Under Belly Cafe</h2>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <h2 className="text-xl md:text-2xl font-bold">Under Belly Cafe</h2>
+          <button 
+            onClick={handleReviewClick}
+            className="flex items-center gap-2 px-3 py-1.5 bg-gray-800 text-white rounded-full
+                     hover:bg-gray-700 transition-colors duration-200 text-sm"
+          >
+            <FaStar className="w-4 h-4 text-yellow-400" />
+            <span className="font-medium">{cafeData.rating}</span>
+            <span className="text-gray-300">({(cafeData.totalReviews/1000).toFixed(1)}K)</span>
+          </button>
+        </div>
+      </div>
+      
+      {/* Menu Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
         {Object.entries(searchTerm || isVegMode ? filteredMenu : menu).map(([key, section]) => (
           <div 
@@ -180,7 +210,7 @@ const UnderBelly = () => {
         ))}
       </div>
 
-      {/* Mobile Menu with Search */}
+      {/* Mobile Menu */}
       <MobileMenu 
         sections={Object.values(menu).map(section => section.title)}
         onSectionClick={scrollToSection}

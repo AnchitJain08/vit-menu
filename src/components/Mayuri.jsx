@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import { FaPizzaSlice } from 'react-icons/fa';
+import { FaPizzaSlice, FaStar } from 'react-icons/fa';
 import { GiNoodles, GiFruitBowl, GiChickenOven, GiBreadSlice } from 'react-icons/gi';
 import { BiDish } from 'react-icons/bi';
+import { IoLeafOutline } from 'react-icons/io5';
 import MobileMenu from './MobileMenu';
 import { useVegMode } from '../context/VegModeContext';
+import { useNavigate } from 'react-router-dom';
+import { getCafeData } from '../utils/cafeData';
 
 const Mayuri = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const { isVegMode } = useVegMode();
+  const navigate = useNavigate();
+  const cafeData = getCafeData("Mayuri Restaurant");
 
   const getIconForSection = (key) => ({
     freshItems: <GiFruitBowl className="w-6 h-6" />,
@@ -114,9 +119,44 @@ const Mayuri = () => {
     return acc;
   }, {});
 
+  // Flatten menu items for search
+  const allMenuItems = Object.values(menu).reduce((items, section) => {
+    return [...items, ...section.items];
+  }, []);
+
+  const handleReviewClick = () => {
+    navigate('/mayuri/reviews', { 
+      state: { menuItems: allMenuItems }
+    });
+  };
+
   return (
     <div className="p-4">
-      <h2 className="text-xl md:text-2xl font-bold mb-6">Mayuri Restaurant</h2>
+      {/* Pure Veg Badge */}
+      <div className="flex items-center gap-2 mb-2">
+        <div className="flex items-center gap-1.5 px-2 py-1 bg-green-100 rounded-full text-green-700 text-sm font-medium">
+          <IoLeafOutline className="w-4 h-4" />
+          <span>Pure Veg</span>
+        </div>
+      </div>
+
+      {/* Title and Rating */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <h2 className="text-xl md:text-2xl font-bold">Mayuri Restaurant</h2>
+          <button 
+            onClick={handleReviewClick}
+            className="flex items-center gap-2 px-3 py-1.5 bg-gray-800 text-white rounded-full
+                     hover:bg-gray-700 transition-colors duration-200 text-sm"
+          >
+            <FaStar className="w-4 h-4 text-yellow-400" />
+            <span className="font-medium">{cafeData.rating}</span>
+            <span className="text-gray-300">({(cafeData.totalReviews/1000).toFixed(1)}K)</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Menu Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
         {Object.entries(searchTerm || isVegMode ? filteredMenu : menu).map(([key, section]) => (
           <div 
@@ -145,7 +185,7 @@ const Mayuri = () => {
         ))}
       </div>
 
-      {/* Mobile Menu with Search */}
+      {/* Mobile Menu */}
       <MobileMenu 
         sections={Object.values(menu).map(section => section.title)}
         onSectionClick={scrollToSection}

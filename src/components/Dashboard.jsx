@@ -13,6 +13,7 @@ import Analytics from './Analytics';
 import { VegModeProvider } from '../context/VegModeContext';
 import VegModeToggle from './VegModeToggle';
 import { UserPreferencesProvider } from '../context/UserPreferencesContext';
+import CafeReviews from './CafeReviews';
 
 const Dashboard = () => {
   const [isExpanded, setIsExpanded] = useState(window.innerWidth >= 768);
@@ -56,6 +57,33 @@ const Dashboard = () => {
                     <Route path="/terms" element={<Terms />} />
                     <Route path="/privacy" element={<Privacy />} />
                     <Route path="/contact" element={<Contact />} />
+                    <Route 
+                      path="/underbelly/reviews" 
+                      element={
+                        <CafeReviews 
+                          restaurantName="Under Belly Cafe" 
+                          restaurantPath="/underbelly"
+                        />
+                      } 
+                    />
+                    <Route 
+                      path="/mayuri/reviews" 
+                      element={
+                        <CafeReviews 
+                          restaurantName="Mayuri Restaurant" 
+                          restaurantPath="/mayuri"
+                        />
+                      } 
+                    />
+                    <Route 
+                      path="/crcl/reviews" 
+                      element={
+                        <CafeReviews 
+                          restaurantName="CRCL Cafe" 
+                          restaurantPath="/crcl"
+                        />
+                      } 
+                    />
                   </Routes>
                 </div>
               </main>
@@ -67,4 +95,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard; 
+export default Dashboard;
