@@ -7,12 +7,17 @@ import { useVegMode } from '../context/VegModeContext';
 import { FaStar } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { getCafeData } from '../utils/cafeData';
+import { useCart } from '../context/CartContext';
+import { motion, AnimatePresence } from 'framer-motion';
+import QuantityControl from './QuantityControl';
 
 const CRCL = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const { isVegMode } = useVegMode();
   const navigate = useNavigate();
   const cafeData = getCafeData("CRCL Cafe");
+  const { addToCart, removeFromCart, updateQuantity } = useCart();
+  const [itemQuantities, setItemQuantities] = useState({});
 
   const getIconForSection = (key) => ({
     quickBites: <GiCoffeeCup className="w-6 h-6" />,
@@ -143,6 +148,31 @@ const CRCL = () => {
     });
   };
 
+  const handleAddToCart = (item) => {
+    addToCart({ 
+      ...item, 
+      restaurant: "CRCL Cafe"
+    });
+    setItemQuantities(prev => ({
+      ...prev,
+      [item.name]: (prev[item.name] || 0) + 1
+    }));
+  };
+
+  const handleQuantityChange = (item, newQuantity, currentQuantity) => {
+    if (newQuantity === 0) {
+      const { [item.name]: _, ...rest } = itemQuantities;
+      setItemQuantities(rest);
+      removeFromCart(item.name);
+    } else {
+      setItemQuantities(prev => ({
+        ...prev,
+        [item.name]: newQuantity
+      }));
+      updateQuantity(item.name, newQuantity);
+    }
+  };
+
   return (
     <div className="p-4">
       <div className="flex items-center justify-between mb-6">
@@ -176,11 +206,51 @@ const CRCL = () => {
             <div className="p-4 space-y-2">
               {section.items.map((item, index) => (
                 <div key={index} className="flex justify-between items-center p-2 hover:bg-gray-50 rounded hover:shadow-sm hover:scale-[1.01] transition-all duration-200">
-                  <span className="font-medium text-sm md:text-base flex items-center">
-                    <span className={`w-2 h-2 rounded-full mr-2 ${item.isVeg ? 'bg-green-500' : 'bg-red-500'}`}/>
-                    {item.name}
-                  </span>
-                  <span className="text-gray-700 text-sm md:text-base">{item.price}</span>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className={`w-2 h-2 rounded-full ${item.isVeg ? 'bg-green-500' : 'bg-red-500'}`}/>
+                      <span className="font-medium text-sm md:text-base">{item.name}</span>
+                    </div>
+                    <div className="flex items-center justify-between mt-1">
+                      <span className="text-gray-700 text-sm md:text-base">{item.price}</span>
+                    </div>
+                  </div>
+                  <AnimatePresence mode="wait">
+                    {itemQuantities[item.name] ? (
+                      <motion.div
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        className="bg-gray-800 text-white rounded-full px-2"
+                      >
+                        <QuantityControl
+                          quantity={itemQuantities[item.name]}
+                          onIncrease={() => handleQuantityChange(
+                            item, 
+                            itemQuantities[item.name] + 1, 
+                            itemQuantities[item.name]
+                          )}
+                          onDecrease={() => handleQuantityChange(
+                            item, 
+                            itemQuantities[item.name] - 1, 
+                            itemQuantities[item.name]
+                          )}
+                        />
+                      </motion.div>
+                    ) : (
+                      <motion.button
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        onClick={() => handleAddToCart(item)}
+                        className="px-3 py-1.5 text-sm bg-gray-800 text-white rounded-full
+                                 hover:bg-gray-700 transition-colors duration-200 flex items-center gap-2"
+                      >
+                        <span>Add</span>
+                        <span className="text-xs">+</span>
+                      </motion.button>
+                    )}
+                  </AnimatePresence>
                 </div>
               ))}
             </div>

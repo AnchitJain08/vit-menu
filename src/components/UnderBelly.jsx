@@ -17,12 +17,20 @@ import MobileMenu from './MobileMenu';
 import { useVegMode } from '../context/VegModeContext';
 import { getCafeData } from '../utils/cafeData';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
+import ItemVariantModal from './ItemVariantModal';
+import { motion, AnimatePresence } from 'framer-motion';
+import QuantityControl from './QuantityControl';
+import { useVariantModal } from '../context/VariantModalContext';
 
 const UnderBelly = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const { isVegMode } = useVegMode();
   const navigate = useNavigate();
   const cafeData = getCafeData("Under Belly Cafe");
+  const { addToCart, removeFromCart, updateQuantity } = useCart();
+  const [itemQuantities, setItemQuantities] = useState({});
+  const { showModal } = useVariantModal();
 
   const getIconForSection = (key) => ({
     rolls: <GiBreadSlice className="w-6 h-6" />,
@@ -338,6 +346,55 @@ const UnderBelly = () => {
     });
   };
 
+  const handleAddToCart = (item) => {
+    if (item.withFries || item.large) {
+      showModal(item, handleVariantSelect);
+    } else {
+      addToCart({ ...item, restaurant: "Under Belly Cafe" });
+      setItemQuantities(prev => ({
+        ...prev,
+        [item.name]: (prev[item.name] || 0) + 1
+      }));
+    }
+  };
+
+  const handleVariantSelect = (itemWithVariant) => {
+    addToCart({ 
+      ...itemWithVariant, 
+      restaurant: "Under Belly Cafe"
+    });
+    setItemQuantities(prev => ({
+      ...prev,
+      [itemWithVariant.name]: (prev[itemWithVariant.name] || 0) + 1
+    }));
+  };
+
+  const handleQuantityChange = (item, newQuantity, currentQuantity) => {
+    if (newQuantity === 0) {
+      const { [item.name]: _, ...rest } = itemQuantities;
+      setItemQuantities(rest);
+      removeFromCart(item.name, "Under Belly Cafe");
+    } else if (newQuantity > currentQuantity) {
+      // If increasing quantity and item has variants, show modal
+      if (item.withFries || item.large) {
+        showModal(item, handleVariantSelect);
+      } else {
+        setItemQuantities(prev => ({
+          ...prev,
+          [item.name]: newQuantity
+        }));
+        updateQuantity(item.name, "Under Belly Cafe", newQuantity);
+      }
+    } else {
+      // If decreasing quantity
+      setItemQuantities(prev => ({
+        ...prev,
+        [item.name]: newQuantity
+      }));
+      updateQuantity(item.name, "Under Belly Cafe", newQuantity);
+    }
+  };
+
   return (
     <div className="p-4">
       <div className="flex items-center justify-between mb-6">
@@ -371,38 +428,55 @@ const UnderBelly = () => {
               <h3 className="text-lg font-semibold">{section.title}</h3>
             </div>
             <div className="p-4 space-y-2">
-              {/* Price Column Headers */}
-              {(section.title === "SANDWICHES & BURGERS" || 
-                section.title === "VEG PASTA" || 
-                section.title === "NON VEG PASTA") && (
-                <div className="grid grid-cols-[1fr,auto,auto] gap-4 pb-2 border-b text-xs text-gray-500">
-                  <div>Item</div>
-                  <div className="text-right px-2">
-                    {section.title === "SANDWICHES & BURGERS" ? "Without Fries" : "Small"}
-                  </div>
-                  <div className="text-right px-2">
-                    {section.title === "SANDWICHES & BURGERS" ? "With Fries" : "Large"}
-                  </div>
-                </div>
-              )}
-
-              {/* Menu Items */}
+              {/* Remove the headers section and directly render menu items */}
               {section.items.map((item, index) => (
-                <div key={index} className="flex justify-between items-center p-2 hover:bg-gray-50 rounded hover:shadow-sm hover:scale-[1.01] transition-all duration-200">
-                  <span className="font-medium text-sm md:text-base flex items-center flex-1">
-                    <span className={`w-2 h-2 rounded-full mr-2 ${item.isVeg ? 'bg-green-500' : 'bg-red-500'}`}/>
-                    {item.name}
-                  </span>
-                  {(item.withFries || item.large) ? (
-                    <div className="grid grid-cols-2 gap-4 text-right">
-                      <span className="text-gray-700 text-sm md:text-base">{item.price}</span>
-                      <span className="text-gray-700 text-sm md:text-base">
-                        {item.withFries || item.large}
-                      </span>
+                <div key={index} className="flex justify-between items-center p-2 hover:bg-gray-50 
+                                          rounded hover:shadow-sm transition-all duration-200">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className={`w-2 h-2 rounded-full ${item.isVeg ? 'bg-green-500' : 'bg-red-500'}`}/>
+                      <span className="font-medium text-sm md:text-base">{item.name}</span>
                     </div>
-                  ) : (
-                    <span className="text-gray-700 text-sm md:text-base">{item.price}</span>
-                  )}
+                    <div className="flex items-center justify-between mt-1">
+                      <span className="text-gray-700 text-sm md:text-base">{item.price}</span>
+                    </div>
+                  </div>
+                  <AnimatePresence mode="wait">
+                    {itemQuantities[item.name] ? (
+                      <motion.div
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        className="bg-gray-800 text-white rounded-full px-2"
+                      >
+                        <QuantityControl
+                          quantity={itemQuantities[item.name]}
+                          onIncrease={() => handleQuantityChange(
+                            item, 
+                            itemQuantities[item.name] + 1, 
+                            itemQuantities[item.name]
+                          )}
+                          onDecrease={() => handleQuantityChange(
+                            item, 
+                            itemQuantities[item.name] - 1, 
+                            itemQuantities[item.name]
+                          )}
+                        />
+                      </motion.div>
+                    ) : (
+                      <motion.button
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        onClick={() => handleAddToCart(item)}
+                        className="px-3 py-1.5 text-sm bg-gray-800 text-white rounded-full
+                                 hover:bg-gray-700 transition-colors duration-200 flex items-center gap-2"
+                      >
+                        <span>Add</span>
+                        <span className="text-xs">+</span>
+                      </motion.button>
+                    )}
+                  </AnimatePresence>
                 </div>
               ))}
             </div>

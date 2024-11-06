@@ -5,7 +5,7 @@ const VegModeToggle = () => {
   const { isVegMode, setIsVegMode } = useVegMode();
 
   return (
-    <div className="fixed top-4 right-4 z-50 flex items-center gap-2">
+    <div className="fixed top-4 right-36 z-50 flex items-center gap-2">
       <button
         onClick={() => setIsVegMode(!isVegMode)}
         className={`flex items-center px-3 py-1.5 rounded-full shadow-lg 

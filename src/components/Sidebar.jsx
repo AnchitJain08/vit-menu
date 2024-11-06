@@ -107,7 +107,9 @@ const Sidebar = ({ isExpanded, setIsExpanded, isMobile }) => {
       {isMobile && (
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="fixed top-4 left-4 z-50 p-2 bg-gray-800 rounded-md text-white"
+          className="fixed top-4 left-4 z-50 p-2 bg-white/80 backdrop-blur-xl 
+                     rounded-md text-gray-800 shadow-lg border border-white/20
+                     hover:bg-white/90 transition-all duration-200"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             {isExpanded ? (
