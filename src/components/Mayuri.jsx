@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FaPizzaSlice, FaStar } from 'react-icons/fa';
 import { GiNoodles, GiFruitBowl, GiChickenOven, GiBreadSlice } from 'react-icons/gi';
 import { BiDish } from 'react-icons/bi';
-import { IoLeafOutline } from 'react-icons/io5';
+import { IoLeafOutline, IoInformationCircle } from 'react-icons/io5';
 import MobileMenu from './MobileMenu';
 import { useVegMode } from '../context/VegModeContext';
 import { useNavigate } from 'react-router-dom';
@@ -154,6 +154,12 @@ const Mayuri = () => {
             <span className="text-gray-300">({(cafeData.totalReviews/1000).toFixed(1)}K)</span>
           </button>
         </div>
+      </div>
+
+      {/* GST Notice */}
+      <div className="mb-6 bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-sm text-yellow-700 flex items-center gap-2">
+        <IoInformationCircle className="w-5 h-5 text-yellow-600 flex-shrink-0" />
+        <p>All prices are exclusive of 5% GST</p>
       </div>
 
       {/* Menu Grid */}

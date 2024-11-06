@@ -1,6 +1,17 @@
 import React, { useState } from 'react';
 import { FaPizzaSlice, FaCoffee, FaGlassWhiskey, FaStar } from 'react-icons/fa';
-import { GiNoodles, GiBreadSlice, GiCakeSlice } from 'react-icons/gi';
+import { 
+  GiNoodles, 
+  GiBreadSlice, 
+  GiCakeSlice, 
+  GiSandwich, 
+  GiHotMeal,
+  GiChickenLeg,
+  GiRawEgg,
+  GiTacos,
+  GiDumpling,
+  GiCook
+} from 'react-icons/gi';
 import { BiDrink } from 'react-icons/bi';
 import MobileMenu from './MobileMenu';
 import { useVegMode } from '../context/VegModeContext';
@@ -20,10 +31,215 @@ const UnderBelly = () => {
     milkshakes: <FaGlassWhiskey className="w-6 h-6" />,
     freshJuices: <BiDrink className="w-6 h-6" />,
     pizza: <FaPizzaSlice className="w-6 h-6" />,
-    pastry: <GiCakeSlice className="w-6 h-6" />
+    pastry: <GiCakeSlice className="w-6 h-6" />,
+    southIndian: <GiNoodles className="w-6 h-6" />,
+    sandwiches: <GiSandwich className="w-6 h-6" />,
+    nonVegStarters: <GiChickenLeg className="w-6 h-6" />,
+    eggVarieties: <GiRawEgg className="w-6 h-6" />,
+    momos: <GiDumpling className="w-6 h-6" />,
+    nachos: <GiTacos className="w-6 h-6" />,
+    vegPasta: <GiNoodles className="w-6 h-6" />,
+    nonVegPasta: <GiNoodles className="w-6 h-6" />
   }[key] || null);
 
   const menu = {
+    sandwiches: {
+      title: "SANDWICHES & BURGERS",
+      items: [
+        { 
+          name: "DOUBLE CHEESE SANDWICH", 
+          price: "₹89", 
+          withFries: "₹137",
+          isVeg: true 
+        },
+        { 
+          name: "SWEET CORN SANDWICH", 
+          price: "₹89", 
+          withFries: "₹126",
+          isVeg: true 
+        },
+        { 
+          name: "PANEER TIKKA SANDWICH", 
+          price: "₹100", 
+          withFries: "₹152",
+          isVeg: true 
+        },
+        { 
+          name: "CHICKEN TIKKA SANDWICH", 
+          price: "₹121", 
+          withFries: "₹163",
+          isVeg: false 
+        },
+        { 
+          name: "MUSHROOM CHEESE SANDWICH", 
+          price: "₹100", 
+          withFries: "₹152",
+          isVeg: true 
+        },
+        { 
+          name: "CLASSIC CHICKEN CLUB SANDWICH", 
+          price: "₹121", 
+          withFries: "₹152",
+          isVeg: false 
+        },
+        { 
+          name: "CHEESE MAYO GRILLED CHICKEN SANDWICH", 
+          price: "₹110", 
+          withFries: "₹152",
+          isVeg: false 
+        },
+        { 
+          name: "BOMBAY GRILLED SANDWICH", 
+          price: "₹68", 
+          withFries: "₹137",
+          isVeg: true 
+        },
+        { 
+          name: "VEG CHEESE BURGER", 
+          price: "₹95", 
+          withFries: "₹152",
+          isVeg: true 
+        },
+        { 
+          name: "CHICKEN BURGER", 
+          price: "₹116", 
+          withFries: "₹163",
+          isVeg: false 
+        },
+        { 
+          name: "VEG WRAP", 
+          price: "₹95", 
+          withFries: "₹147",
+          isVeg: true 
+        },
+        { 
+          name: "CHICKEN WRAP", 
+          price: "₹121", 
+          withFries: "₹158",
+          isVeg: false 
+        },
+        { 
+          name: "PANEER WRAP", 
+          price: "₹100", 
+          withFries: "₹152",
+          isVeg: true 
+        }
+      ]
+    },
+    nonVegStarters: {
+      title: "NON VEG STARTERS",
+      items: [
+        { name: "CHICKEN NUGGETS", price: "₹152", isVeg: false },
+        { name: "CHICKEN WINGS", price: "₹152", isVeg: false },
+        { name: "CHICKEN TIKKA", price: "₹168", isVeg: false },
+        { name: "CHICKEN MALAI TIKKA", price: "₹168", isVeg: false },
+        { name: "TANDOORI CHICKEN HALF", price: "₹210", isVeg: false },
+        { name: "TANDOORI CHICKEN FULL", price: "₹399", isVeg: false },
+        { name: "CHILLY CHICKEN DRY", price: "₹140", isVeg: false },
+        { name: "CHILLY CHICKEN GRAVY", price: "₹150", isVeg: false },
+        { name: "DRAGON CHICKEN", price: "₹152", isVeg: false },
+        { name: "CHICKEN 65", price: "₹152", isVeg: false }
+      ]
+    },
+    southIndian: {
+      title: "SOUTH INDIAN",
+      items: [
+        { name: "MASALA DOSA", price: "₹80", isVeg: true },
+        { name: "BUTTER MASALA DOSA", price: "₹90", isVeg: true },
+        { name: "PLAIN DOSA", price: "₹70", isVeg: true },
+        { name: "GHEE DOSA", price: "₹79", isVeg: true },
+        { name: "BUTTER DOSA", price: "₹80", isVeg: true },
+        { name: "CHILLY GARLIC PANEER DOSA", price: "₹116", isVeg: true },
+        { name: "GHEE SAMBAR IDLY (3)", price: "₹60", isVeg: true },
+        { name: "PAPER MASALA DOSA", price: "₹70", isVeg: true },
+        { name: "PANEER KHEEMA DOSA", price: "₹105", isVeg: true },
+        { name: "CHEESE MASALA DOSA", price: "₹100", isVeg: true },
+        { name: "CHILLY CHEESE GARLIC DOSA", price: "₹130", isVeg: true },
+        { name: "ONION CHEESE MASALA DOSA", price: "₹100", isVeg: true }
+      ]
+    },
+    momos: {
+      title: "MOMOS",
+      items: [
+        { name: "VEG MOMOS", price: "₹105", isVeg: true },
+        { name: "PANEER MOMOS", price: "₹126", isVeg: true },
+        { name: "CHICKEN MOMOS", price: "₹137", isVeg: false }
+      ]
+    },
+    vegPasta: {
+      title: "VEG PASTA",
+      items: [
+        { 
+          name: "PENNE ALFREDO PASTA", 
+          price: "₹105",
+          large: "₹168", 
+          isVeg: true 
+        },
+        { 
+          name: "PENNE ARABIATA", 
+          price: "₹105",
+          large: "₹168", 
+          isVeg: true 
+        },
+        { 
+          name: "PINK SAUCE PASTA", 
+          price: "₹105",
+          large: "₹168", 
+          isVeg: true 
+        },
+        { 
+          name: "BASIL SAUCE PASTA", 
+          price: "₹105",
+          large: "₹168", 
+          isVeg: true 
+        }
+      ]
+    },
+    nonVegPasta: {
+      title: "NON VEG PASTA",
+      items: [
+        { 
+          name: "PENNE ALFREDO CHICKEN", 
+          price: "₹127",
+          large: "₹179", 
+          isVeg: false 
+        },
+        { 
+          name: "PENNE ARABIATA CHICKEN", 
+          price: "₹127",
+          large: "₹179", 
+          isVeg: false 
+        },
+        { 
+          name: "PINK SAUCE CHICKEN PASTA", 
+          price: "₹127",
+          large: "₹179", 
+          isVeg: false 
+        },
+        { 
+          name: "BASIL SAUCE CHICKEN PASTA", 
+          price: "₹127",
+          large: "₹179", 
+          isVeg: false 
+        }
+      ]
+    },
+    eggVarieties: {
+      title: "EGG VARIETIES",
+      items: [
+        { name: "BREAD OMELETTE", price: "₹63", isVeg: false },
+        { name: "MASALA OMELETTE", price: "₹37", isVeg: false },
+        { name: "CHEESE OMELETTE", price: "₹53", isVeg: false },
+        { name: "EGG BHURJI", price: "₹37", isVeg: false }
+      ]
+    },
+    nachos: {
+      title: "NACHOS",
+      items: [
+        { name: "VEG MIXED NACHOS", price: "₹100", isVeg: true },
+        { name: "CHICKEN NACHOS", price: "₹121", isVeg: false }
+      ]
+    },
     hotBeverages: {
       title: "HOT BEVERAGES",
       items: [
@@ -51,61 +267,6 @@ const UnderBelly = () => {
         { name: "COLD COFFEE LARGE", price: "₹80", isVeg: true }
       ]
     },
-    freshJuices: {
-      title: "FRESH JUICE",
-      items: [
-        { name: "ORANGE JUICE", price: "₹70", isVeg: true },
-        { name: "SWEET LIME JUICE", price: "₹70", isVeg: true },
-        { name: "PINEAPPLE JUICE", price: "₹70", isVeg: true },
-        { name: "MANGO JUICE", price: "₹70", isVeg: true },
-        { name: "LEMON ICE TEA LARGE", price: "₹63", isVeg: true },
-        { name: "LIME MINT COOLER LARGE", price: "₹63", isVeg: true },
-        { name: "LIME MINT COOLER SMALL", price: "₹42", isVeg: true },
-        { name: "LEMON ICE TEA SMALL", price: "₹42", isVeg: true }
-      ]
-    },
-    pizza: {
-      title: "PIZZA",
-      items: [
-        { name: "SWEET CORN PIZZA", price: "₹200", isVeg: true },
-        { name: "UB SPECIAL PIZZA", price: "₹200", isVeg: true },
-        { name: "PANEER TIKKA PIZZA", price: "₹200", isVeg: true },
-        { name: "VEG SUPREME PIZZA", price: "₹200", isVeg: true },
-        { name: "CLASSIC MARGHERITA PIZZA", price: "₹200", isVeg: true },
-        { name: "UB SPECIAL NON VEG PIZZA", price: "₹230", isVeg: false },
-        { name: "CHICKEN TIKKA PIZZA", price: "₹230", isVeg: false },
-        { name: "JALAPENO CHICKEN PIZZA", price: "₹230", isVeg: false }
-      ]
-    },
-    chinese: {
-      title: "CHINESE",
-      items: [
-        { name: "VEG NOODLES", price: "₹130", isVeg: true },
-        { name: "VEG FRIED RICE", price: "₹130", isVeg: true },
-        { name: "CHICKEN NOODLES", price: "₹142", isVeg: false },
-        { name: "CHICKEN FRIED RICE", price: "₹142", isVeg: false },
-        { name: "SCHEZWAN VEG NOODLES", price: "₹131", isVeg: true },
-        { name: "SCHEZWAN VEG FRIED RICE", price: "₹131", isVeg: true },
-        { name: "SCHEZWAN CHICKEN FRIED RICE", price: "₹152", isVeg: false },
-        { name: "EGG FRIED RICE", price: "₹142", isVeg: false },
-        { name: "PANEER FRIED RICE", price: "₹160", isVeg: true },
-        { name: "SCHEZWAN CHICKEN NOODLES", price: "₹152", isVeg: false }
-      ]
-    },
-    rolls: {
-      title: "Rolls & Buns",
-      items: [
-        { name: "VEG PLAIT", price: "₹42", isVeg: true },
-        { name: "VEG SUB ROLL", price: "₹42", isVeg: true },
-        { name: "VEG TURNOVER", price: "₹32", isVeg: true },
-        { name: "CHILLY CHEESE PLAIT", price: "₹53", isVeg: true },
-        { name: "PANEER PIZZA BUN", price: "₹47", isVeg: true },
-        { name: "VEG CRISPY ROLL", price: "₹42", isVeg: true },
-        { name: "CHICKEN TURNOVER", price: "₹42", isVeg: false },
-        { name: "CHICKEN PIZZA BUN", price: "₹53", isVeg: false },
-        { name: "CHICKEN SUB ROLL", price: "₹53", isVeg: false }
-      ]
-    },
     pastry: {
       title: "PASTRY",
       items: [
@@ -120,6 +281,20 @@ const UnderBelly = () => {
         { name: "STRABERY PASTRY", price: "₹80", isVeg: true },
         { name: "REDVELVET PASTRY", price: "₹80", isVeg: true },
         { name: "BUTTERSCOTCH PASTRY", price: "₹80", isVeg: true }
+      ]
+    },
+    rolls: {
+      title: "Rolls & Buns",
+      items: [
+        { name: "VEG PLAIT", price: "₹42", isVeg: true },
+        { name: "VEG SUB ROLL", price: "₹42", isVeg: true },
+        { name: "VEG TURNOVER", price: "₹32", isVeg: true },
+        { name: "CHILLY CHEESE PLAIT", price: "₹53", isVeg: true },
+        { name: "PANEER PIZZA BUN", price: "₹47", isVeg: true },
+        { name: "VEG CRISPY ROLL", price: "₹42", isVeg: true },
+        { name: "CHICKEN TURNOVER", price: "₹42", isVeg: false },
+        { name: "CHICKEN PIZZA BUN", price: "₹53", isVeg: false },
+        { name: "CHICKEN SUB ROLL", price: "₹53", isVeg: false }
       ]
     }
   };
@@ -153,7 +328,6 @@ const UnderBelly = () => {
     setSearchTerm(term.toLowerCase());
   };
 
-  // Flatten menu items for search
   const allMenuItems = Object.values(menu).reduce((items, section) => {
     return [...items, ...section.items];
   }, []);
@@ -180,8 +354,9 @@ const UnderBelly = () => {
           </button>
         </div>
       </div>
-      
+
       {/* Menu Grid */}
+      
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
         {Object.entries(searchTerm || isVegMode ? filteredMenu : menu).map(([key, section]) => (
           <div 
@@ -196,13 +371,38 @@ const UnderBelly = () => {
               <h3 className="text-lg font-semibold">{section.title}</h3>
             </div>
             <div className="p-4 space-y-2">
+              {/* Price Column Headers */}
+              {(section.title === "SANDWICHES & BURGERS" || 
+                section.title === "VEG PASTA" || 
+                section.title === "NON VEG PASTA") && (
+                <div className="grid grid-cols-[1fr,auto,auto] gap-4 pb-2 border-b text-xs text-gray-500">
+                  <div>Item</div>
+                  <div className="text-right px-2">
+                    {section.title === "SANDWICHES & BURGERS" ? "Without Fries" : "Small"}
+                  </div>
+                  <div className="text-right px-2">
+                    {section.title === "SANDWICHES & BURGERS" ? "With Fries" : "Large"}
+                  </div>
+                </div>
+              )}
+
+              {/* Menu Items */}
               {section.items.map((item, index) => (
                 <div key={index} className="flex justify-between items-center p-2 hover:bg-gray-50 rounded hover:shadow-sm hover:scale-[1.01] transition-all duration-200">
-                  <span className="font-medium text-sm md:text-base flex items-center">
+                  <span className="font-medium text-sm md:text-base flex items-center flex-1">
                     <span className={`w-2 h-2 rounded-full mr-2 ${item.isVeg ? 'bg-green-500' : 'bg-red-500'}`}/>
                     {item.name}
                   </span>
-                  <span className="text-gray-700 text-sm md:text-base">{item.price}</span>
+                  {(item.withFries || item.large) ? (
+                    <div className="grid grid-cols-2 gap-4 text-right">
+                      <span className="text-gray-700 text-sm md:text-base">{item.price}</span>
+                      <span className="text-gray-700 text-sm md:text-base">
+                        {item.withFries || item.large}
+                      </span>
+                    </div>
+                  ) : (
+                    <span className="text-gray-700 text-sm md:text-base">{item.price}</span>
+                  )}
                 </div>
               ))}
             </div>
@@ -220,4 +420,4 @@ const UnderBelly = () => {
   );
 };
 
-export default UnderBelly; 
+export default UnderBelly;

@@ -9,7 +9,6 @@ import About from './About';
 import Terms from './Terms';
 import Privacy from './Privacy';
 import Contact from './Contact';
-import Analytics from './Analytics';
 import { VegModeProvider } from '../context/VegModeContext';
 import VegModeToggle from './VegModeToggle';
 import { UserPreferencesProvider } from '../context/UserPreferencesContext';
@@ -47,8 +46,7 @@ const Dashboard = () => {
                 <div className={`container mx-auto px-4 transition-all duration-300 
                                ${isExpanded ? 'max-w-[2000px]' : 'max-w-[2200px]'}`}>
                   <Routes>
-                    <Route path="/" element={<Navigate to="/analytics" replace />} />
-                    <Route path="/analytics" element={<Analytics />} />
+                    <Route path="/" element={<Navigate to="/underbelly" replace />} />
                     <Route path="/underbelly" element={<UnderBelly />} />
                     <Route path="/mayuri" element={<Mayuri />} />
                     <Route path="/crcl" element={<CRCL />} />
