@@ -1,215 +1,183 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useUserPreferences } from '../context/UserPreferencesContext';
+import { IoMenu, IoChevronForward } from 'react-icons/io5';
+import { GiCoffeeCup } from 'react-icons/gi';
+import { MdRestaurant } from 'react-icons/md';
+import { BsBuilding } from 'react-icons/bs';
+import { SiCodechef } from 'react-icons/si';
 
 const Sidebar = ({ isExpanded, setIsExpanded, isMobile }) => {
   const location = useLocation();
-  const { preferences, updatePreference } = useUserPreferences();
 
-  const isActive = (path) => {
-    return location.pathname === path ? 'bg-gray-700' : '';
+  const handleExpandToggle = () => {
+    setIsExpanded(!isExpanded);
   };
 
-  // Handle link click in mobile mode
   const handleLinkClick = () => {
     if (isMobile) {
       setIsExpanded(false);
     }
   };
 
-  // Update sidebar state in preferences
-  const handleExpandToggle = () => {
-    setIsExpanded(!isExpanded);
-    updatePreference('sidebarExpanded', !isExpanded);
+  const isActive = (path) => {
+    return location.pathname === path ? 'bg-gray-700/50' : '';
   };
-
-  const menuItems = [
-    {
-      section: "Campus Cafes",
-      items: [
-        {
-          path: "/underbelly",
-          name: "Under Belly",
-          icon: (
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
-                    d="M3 10V8a2 2 0 012-2h14a2 2 0 012 2v2M3 10v6a2 2 0 002 2h14a2 2 0 002-2v-6M3 10l9 3l9-3" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
-                    d="M12 13v6M8 15.5l4-1.5M16 15.5l-4-1.5" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
-                    d="M7.5 8.5l*.5-.5M12 8.5l*.5-.5M16.5 8.5l*.5-.5" />
-            </svg>
-          )
-        },
-        {
-          path: "/mayuri",
-          name: "Mayuri",
-          icon: (
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
-                    d="M15 11h.01M9 11h.01" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
-                    d="M12 4c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
-                    d="M8 13s1.5 2 4 2 4-2 4-2" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
-                    d="M12 17v.01" />
-            </svg>
-          )
-        },
-        {
-          path: "/crcl",
-          name: "CRCL",
-          icon: (
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
-                    d="M20 7H4a2 2 0 00-2 2v9a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
-                    d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
-                    d="M12 10v4M10 12h4" />
-            </svg>
-          )
-        }
-      ]
-    },
-    {
-      section: "Hostel",
-      items: [
-        {
-          path: "/hostel-mess",
-          name: "Hostel Mess Menu",
-          icon: (
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
-                    d="M3 6h18M3 12h18M3 18h18" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
-                    d="M5 15V9M12 15V9M19 15V9" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
-                    d="M4 6h16a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1z" />
-            </svg>
-          )
-        }
-      ]
-    }
-  ];
-
-  const footerLinks = [
-    { path: "/about", name: "About Us" },
-    { path: "/terms", name: "Terms & Conditions" },
-    { path: "/privacy", name: "Privacy Policy" },
-    { path: "/contact", name: "Contact Us" }
-  ];
 
   return (
     <>
-      {/* Mobile Toggle Button */}
+      {/* Mobile menu button */}
       {isMobile && (
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="fixed top-4 left-4 z-50 p-2 bg-white/80 backdrop-blur-xl 
-                     rounded-md text-gray-800 shadow-lg border border-white/20
-                     hover:bg-white/90 transition-all duration-200"
+        <button 
+          onClick={handleExpandToggle}
+          className="fixed top-4 left-4 z-[100] h-8 w-8 flex items-center justify-center 
+                   bg-gray-200 text-gray-700 rounded-lg border border-gray-300"
+          aria-label="Toggle menu"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            {isExpanded ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
+          <IoMenu className="w-3.5 h-3.5" />
         </button>
       )}
 
-      {/* Sidebar */}
-      <div 
-        className={`
-          fixed top-0 left-0 h-full bg-gray-800 text-white transition-all duration-300 ease-in-out z-40
-          ${isExpanded ? 'w-64' : 'w-20'} 
-          ${isMobile && !isExpanded ? '-translate-x-full' : 'translate-x-0'}
-        `}
+      {/* Sidebar content */}
+      <div className={`fixed inset-y-0 left-0 bg-gray-800 text-white
+                    transition-all duration-300 
+                    ${isMobile ? 'w-64' : isExpanded ? 'w-64' : 'w-16'}
+                    ${isMobile ? (isExpanded ? 'translate-x-0 z-[110]' : '-translate-x-full z-20') : 'translate-x-0 z-[110]'}`}
       >
-        <div className="flex flex-col h-full">
-          {/* Header */}
-          <div className="flex items-center justify-between p-4 h-16">
-            <h1 className={`font-bold text-xl whitespace-nowrap transition-opacity duration-300
-                          ${isExpanded ? 'opacity-100' : 'opacity-0 md:hidden'}`}>
-              VIT Bhopal Menu
-            </h1>
-            {!isMobile && (
-              <button 
+        <div className="h-full overflow-y-auto flex flex-col">
+          {/* Title with expand/collapse button */}
+          <div className="p-4 border-b border-gray-700 flex items-center justify-between">
+            {isExpanded ? (
+              <>
+                <h1 className="text-lg font-semibold">VIT Bhopal Menu</h1>
+                {!isMobile && (
+                  <button
+                    onClick={handleExpandToggle}
+                    className="p-1 hover:bg-gray-700/50 rounded-lg transition-colors"
+                    aria-label="Collapse sidebar"
+                  >
+                    <IoChevronForward className="w-5 h-5 rotate-180" />
+                  </button>
+                )}
+              </>
+            ) : !isMobile && (
+              <button
                 onClick={handleExpandToggle}
-                className="p-2 rounded-lg hover:bg-gray-700 focus:outline-none"
+                className="p-1 hover:bg-gray-700/50 rounded-lg transition-colors"
+                aria-label="Expand sidebar"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                        d={isExpanded ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"} />
-                </svg>
+                <IoChevronForward className="w-5 h-5" />
               </button>
             )}
           </div>
 
-          {/* Navigation */}
-          <nav className="flex-1 overflow-y-auto">
-            {menuItems.map((section, idx) => (
-              <div key={idx} className="px-2 py-2">
-                <div className={`text-gray-400 text-sm mb-2 transition-opacity duration-300 px-4
-                              ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
-                  {section.section}
-                </div>
-                {section.items.map((item) => (
-                  <Link 
-                    key={item.path}
-                    to={item.path}
-                    onClick={handleLinkClick}
-                    className={`
-                      flex items-center mb-1 rounded-lg transition-all duration-200
-                      hover:bg-gray-700 ${isActive(item.path)}
-                      h-[44px] mx-2
-                    `}
-                  >
-                    <div className={`
-                      flex items-center justify-center
-                      min-w-[44px] h-[44px]
-                      ${isExpanded ? 'pl-2' : 'w-full'}
-                    `}>
-                      <div className="w-6 h-6">
-                        {item.icon}
-                      </div>
-                    </div>
-                    <span className={`transition-all duration-300 whitespace-nowrap
-                                   ${isExpanded ? 'opacity-100 ml-2' : 'opacity-0 w-0 hidden'}`}>
-                      {item.name}
-                    </span>
-                  </Link>
-                ))}
+          {/* Navigation Sections */}
+          <div className="flex-1 py-4">
+            {/* Campus Cafes Section */}
+            {isExpanded && (
+              <div className="px-4 mb-2">
+                <h2 className="text-sm font-medium text-gray-400">Campus Cafes</h2>
               </div>
-            ))}
-          </nav>
+            )}
+            <nav className="space-y-1 px-2">
+              <Link
+                to="/underbelly"
+                onClick={handleLinkClick}
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg
+                          transition-colors duration-200 hover:bg-gray-700/50
+                          ${isActive('/underbelly')}`}
+                title={!isExpanded ? "Under Belly" : ""}
+              >
+                <SiCodechef className="w-5 h-5 min-w-[20px]" />
+                {isExpanded && <span>Under Belly</span>}
+              </Link>
+              <Link
+                to="/mayuri"
+                onClick={handleLinkClick}
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg
+                          transition-colors duration-200 hover:bg-gray-700/50
+                          ${isActive('/mayuri')}`}
+                title={!isExpanded ? "Mayuri" : ""}
+              >
+                <MdRestaurant className="w-5 h-5 min-w-[20px]" />
+                {isExpanded && <span>Mayuri</span>}
+              </Link>
+              <Link
+                to="/crcl"
+                onClick={handleLinkClick}
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg
+                          transition-colors duration-200 hover:bg-gray-700/50
+                          ${isActive('/crcl')}`}
+                title={!isExpanded ? "CRCL" : ""}
+              >
+                <GiCoffeeCup className="w-5 h-5 min-w-[20px]" />
+                {isExpanded && <span>CRCL</span>}
+              </Link>
+            </nav>
 
-          {/* Footer Links */}
-          <div className={`border-t border-gray-700 py-4 px-2 ${isExpanded ? '' : 'hidden'}`}>
-            <div className="grid grid-cols-2 gap-2">
-              {footerLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  onClick={handleLinkClick}
-                  className="text-sm text-gray-400 hover:text-white transition-colors duration-200 px-2 py-1 rounded"
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </div>
+            {/* Hostel Section */}
+            {isExpanded && (
+              <div className="px-4 mt-6 mb-2">
+                <h2 className="text-sm font-medium text-gray-400">Hostel</h2>
+              </div>
+            )}
+            <nav className="space-y-1 px-2">
+              <Link
+                to="/hostel-mess"
+                onClick={handleLinkClick}
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg
+                          transition-colors duration-200 hover:bg-gray-700/50
+                          ${isActive('/hostel-mess')}`}
+                title={!isExpanded ? "Hostel Mess Menu" : ""}
+              >
+                <BsBuilding className="w-5 h-5 min-w-[20px]" />
+                {isExpanded && <span>Hostel Mess Menu</span>}
+              </Link>
+            </nav>
           </div>
+
+          {/* Footer Links - Only show when expanded */}
+          {isExpanded && (
+            <div className="mt-auto py-4">
+              <div className="grid grid-cols-2 gap-x-4 gap-y-2 px-4 text-sm text-gray-400">
+                <Link
+                  to="/about"
+                  onClick={handleLinkClick}
+                  className="hover:text-gray-300 transition-colors duration-200"
+                >
+                  About Us
+                </Link>
+                <Link
+                  to="/terms"
+                  onClick={handleLinkClick}
+                  className="hover:text-gray-300 transition-colors duration-200"
+                >
+                  Terms & Conditions
+                </Link>
+                <Link
+                  to="/privacy"
+                  onClick={handleLinkClick}
+                  className="hover:text-gray-300 transition-colors duration-200"
+                >
+                  Privacy Policy
+                </Link>
+                <Link
+                  to="/contact"
+                  onClick={handleLinkClick}
+                  className="hover:text-gray-300 transition-colors duration-200"
+                >
+                  Contact Us
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Overlay for mobile */}
+      {/* Backdrop */}
       {isMobile && isExpanded && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-30"
-          onClick={() => setIsExpanded(false)}
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[105]"
+          onClick={handleExpandToggle}
         />
       )}
     </>

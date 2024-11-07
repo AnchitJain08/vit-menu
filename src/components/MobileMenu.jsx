@@ -1,94 +1,46 @@
-import React, { useState } from 'react';
-import { IoRestaurantOutline } from 'react-icons/io5';
+import React from 'react';
 import { IoRestaurantSharp } from 'react-icons/io5';
-import { IoSearchOutline } from 'react-icons/io5';
 
-const MobileMenu = ({ sections, onSectionClick, onSearch }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const filteredSections = sections.filter(section =>
-    section.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const handleSearchChange = (e) => {
-    const term = e.target.value;
-    setSearchTerm(term);
-    if (onSearch) {
-      onSearch(term);
-    }
-  };
-
+const MobileMenu = ({ sections, onSectionClick, isOpen, onClose }) => {
   return (
     <>
-      {/* Fixed Bottom Bar with equal spacing - Mobile & Desktop */}
-      <div className="fixed bottom-4 z-50 flex justify-end items-center gap-4
-                    md:right-8 md:left-auto md:w-auto">
-        {/* Search Bar */}
-        <div className="relative flex-1 md:flex-initial md:w-64">
-          <input
-            type="text"
-            placeholder="Search menu..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-            className="w-full h-12 pl-11 pr-4 bg-white/90 backdrop-blur-sm rounded-full 
-                     text-gray-700 shadow-lg focus:outline-none focus:ring-2 
-                     focus:ring-gray-800 transition-all duration-200 text-base"
-          />
-          <IoSearchOutline className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-        </div>
-
-        {/* Menu Button */}
-        <button
-          onClick={() => setIsOpen(true)}
-          className="p-3 bg-gray-800 rounded-full text-white shadow-lg 
-                   hover:bg-gray-700 transition-colors duration-200 flex-shrink-0"
-          aria-label="Open menu"
-        >
-          <IoRestaurantOutline className="w-6 h-6" />
-        </button>
-      </div>
-
-      {/* Menu Modal */}
       {isOpen && (
         <>
-          {/* Blurred Backdrop */}
+          {/* Dark Backdrop */}
           <div 
-            className="fixed inset-0 z-40 backdrop-blur-sm bg-black/30"
-            onClick={() => setIsOpen(false)}
+            className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-[0.0625rem]"
+            onClick={onClose}
           />
 
-          {/* Menu Content - Floating design */}
-          <div className="fixed z-50 md:right-8 md:bottom-20 md:w-72
-                        inset-x-4 bottom-20 md:left-auto">
-            <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl 
-                          border border-gray-200/50 overflow-hidden">
+          {/* Menu Content */}
+          <div className="fixed z-[70] bottom-[4rem] inset-x-[1rem] md:right-[2rem] md:left-auto md:w-[18rem]">
+            <div className="bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden">
               {/* Header */}
-              <div className="flex justify-between items-center px-6 py-4">
-                <h3 className="text-lg font-semibold text-gray-800">Categories</h3>
+              <div className="flex justify-between items-center px-[1rem] py-[0.75rem] border-b border-gray-200">
+                <h3 className="text-base font-semibold text-gray-900">Categories</h3>
                 <button 
-                  onClick={() => setIsOpen(false)}
-                  className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 
-                           rounded-full transition-colors duration-200"
+                  onClick={onClose}
+                  className="w-[1.75rem] h-[1.75rem] flex items-center justify-center 
+                           hover:bg-gray-100 rounded-lg transition-colors duration-200"
                   aria-label="Close menu"
                 >
-                  <IoRestaurantSharp className="w-5 h-5 text-gray-600" />
+                  <IoRestaurantSharp className="w-[1rem] h-[1rem] text-gray-500" />
                 </button>
               </div>
 
               {/* Sections List */}
-              <div className="px-2 pb-2">
-                <div className="max-h-[200px] overflow-y-auto rounded-xl">
-                  {filteredSections.map((section, index) => (
+              <div className="px-[0.5rem] py-[0.5rem]">
+                <div className="max-h-[min(25rem,60vh)] overflow-y-auto">
+                  {sections.map((section, index) => (
                     <button
                       key={index}
                       onClick={() => {
                         onSectionClick(section);
-                        setIsOpen(false);
+                        onClose();
                       }}
-                      className="w-full text-left px-4 py-3 rounded-xl
-                               hover:bg-gray-100/80 active:bg-gray-200/80 
-                               transition-colors duration-200 text-gray-700"
+                      className="w-full text-left px-[0.75rem] py-[0.625rem] rounded-lg
+                               text-gray-700 hover:bg-gray-100 
+                               active:bg-gray-200 transition-colors duration-200"
                     >
                       {section}
                     </button>
@@ -103,4 +55,4 @@ const MobileMenu = ({ sections, onSectionClick, onSearch }) => {
   );
 };
 
-export default MobileMenu; 
+export default MobileMenu;

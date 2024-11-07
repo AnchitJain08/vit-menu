@@ -1,32 +1,33 @@
 import React from 'react';
-import { FaMinus, FaPlus } from 'react-icons/fa';
-import { motion, AnimatePresence } from 'framer-motion';
+import { HiMinus, HiPlus } from 'react-icons/hi';
 
 const QuantityControl = ({ quantity, onIncrease, onDecrease }) => {
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center bg-red-500/90 rounded-lg h-7 w-[88px]">
+      {/* Decrease Button */}
       <button
         onClick={onDecrease}
-        className="p-1 hover:bg-gray-700 rounded-full transition-colors duration-200"
+        className="w-7 h-7 flex items-center justify-center text-white
+                 hover:bg-red-600/90 active:bg-red-700/90 transition-colors"
+        aria-label="Decrease quantity"
       >
-        <FaMinus className="w-2.5 h-2.5" />
+        <HiMinus className="w-3 h-3" />
       </button>
-      <AnimatePresence mode="wait">
-        <motion.span
-          key={quantity}
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 10 }}
-          className="w-4 text-center text-sm font-medium"
-        >
-          {quantity}
-        </motion.span>
-      </AnimatePresence>
+
+      {/* Quantity Display */}
+      <div className="w-[30px] h-7 flex items-center justify-center text-white 
+                    font-medium text-sm">
+        {quantity}
+      </div>
+
+      {/* Increase Button */}
       <button
         onClick={onIncrease}
-        className="p-1 hover:bg-gray-700 rounded-full transition-colors duration-200"
+        className="w-7 h-7 flex items-center justify-center text-white
+                 hover:bg-red-600/90 active:bg-red-700/90 transition-colors"
+        aria-label="Increase quantity"
       >
-        <FaPlus className="w-2.5 h-2.5" />
+        <HiPlus className="w-3 h-3" />
       </button>
     </div>
   );
