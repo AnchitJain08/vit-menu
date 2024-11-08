@@ -43,7 +43,7 @@ Works flawlessly on all devices - from phones to tablets to desktops.
 - **Always Updated**: Real-time menu and price updates
 
 ## 📱 Try It Now
-Visit [VIT Bhopal Menu](https://anchitjain08.github.io/vit-menu)
+Visit [VIT Bhopal Menu](https://anchitjain08.github.io/vit-menu/#/underbelly)
 
 ## 💻 Tech Stack
 Built with React, Tailwind CSS, and Framer Motion for that extra smooth feel.
