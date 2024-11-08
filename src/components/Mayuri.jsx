@@ -224,10 +224,10 @@ const Mayuri = ({ isExpanded, isMobile }) => {
   };
 
   return (
-    <div className="p-4 bg-white">
+    <div className="p-2 md:p-4 bg-white dark:bg-[#121212]">
       {/* Fixed Header - Always visible */}
-      <div className="fixed top-0 right-0 bg-gray-100 z-50
-                     border-b border-gray-200/50 shadow-sm
+      <div className="fixed top-0 right-0 bg-white dark:bg-dark-header z-50
+                     border-b border-gray-200 dark:border-dark-border
                      transition-all duration-300
                      md:left-16 lg:left-[var(--sidebar-width)]"
         style={{ 
@@ -238,10 +238,10 @@ const Mayuri = ({ isExpanded, isMobile }) => {
         <div className="flex items-center justify-between px-4 py-2.5">
           {/* Restaurant Name - Always left aligned */}
           <div className="flex-1">
-            <h2 className={`text-base font-medium text-gray-900
+            <h2 className={`text-base font-medium text-gray-900 dark:text-white
                          ${isMobile ? 'ml-20' : 'ml-6'}
                          transition-opacity duration-300
-                         ${isScrolled ? 'opacity-100 z-[120]' : 'opacity-0'}`}>
+                         ${isScrolled ? 'opacity-100' : 'opacity-0'}`}>
               Mayuri Cafe
             </h2>
           </div>
@@ -255,7 +255,7 @@ const Mayuri = ({ isExpanded, isMobile }) => {
                         transition-all duration-200 backdrop-blur-sm border text-sm font-medium
                         ${isVegMode 
                           ? 'bg-green-500/20 text-green-500 border-green-500/30' 
-                          : 'bg-gray-200/20 text-gray-700 border-gray-300/30'}`}
+                          : 'bg-gray-200/20 text-gray-700 dark:text-gray-200 border-gray-300/30'}`}
             >
               <span className="font-medium">VEG</span>
               <div className={`ml-1.5 w-2 h-2 rounded-full 
@@ -317,7 +317,7 @@ const Mayuri = ({ isExpanded, isMobile }) => {
 
           {/* Restaurant Title and Rating */}
           <div className="flex items-start justify-between">
-            <h1 className={`text-3xl font-extrabold text-gray-900 tracking-tight 
+            <h1 className={`text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight 
                          font-[system-ui] transition-opacity duration-300
                          ${isScrolled ? 'opacity-0' : 'opacity-100'}`}>
               Mayuri Restaurant
@@ -372,24 +372,24 @@ const Mayuri = ({ isExpanded, isMobile }) => {
                   className={`space-y-2 ${columnSpan}`}
                 >
                   {/* Section Title */}
-                  <h3 className="text-lg font-semibold text-gray-900 px-2">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 px-2">
                     {section.title}
                   </h3>
 
                   {/* Section Content */}
-                  <div className="bg-gray-100 rounded-lg overflow-hidden">
+                  <div className="bg-gray-100 dark:bg-dark-section rounded-lg overflow-hidden">
                     <div className={`p-3 ${gridClass}`}>
                       {section.items.map((item, index) => (
                         <div key={index} className="flex justify-between items-center p-2 
-                                                  hover:bg-gray-200/50 rounded 
+                                                  hover:bg-gray-200 dark:hover:bg-dark-hover rounded 
                                                   transition-all duration-200">
                           <div className="flex-1">
                             <div className="flex items-center gap-2">
                               <span className={`w-2 h-2 rounded-full ${item.isVeg ? 'bg-green-500' : 'bg-red-500'}`}/>
-                              <span className="font-medium text-sm text-gray-900">{item.name}</span>
+                              <span className="font-medium text-sm text-gray-900 dark:text-gray-100">{item.name}</span>
                             </div>
                             <div className="flex items-center justify-between mt-1">
-                              <span className="text-gray-600 text-sm">{item.price}</span>
+                              <span className="text-gray-600 dark:text-gray-400">{item.price}</span>
                             </div>
                           </div>
                           <AnimatePresence mode="wait">
@@ -437,25 +437,32 @@ const Mayuri = ({ isExpanded, isMobile }) => {
       </div>
 
       {/* Fixed Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-gray-100 border-t border-gray-200/50 z-30">
-        <div className="flex items-center justify-end gap-3 px-4 py-2">
-          {/* Search Bar - Fixed width */}
-          <div className="w-[70%] max-w-[300px]">
+      <div className="fixed bottom-0 right-0 bg-gray-100 dark:bg-dark-header border-t border-gray-200/50 dark:border-dark-border z-30 rounded-t-md
+                  transition-all duration-300
+                  md:left-16 lg:left-[var(--sidebar-width)]"
+           style={{ 
+             '--sidebar-width': isExpanded ? '256px' : '64px',
+             left: isMobile ? '0' : undefined 
+           }}
+      >
+        <div className="flex items-center justify-between px-2 py-1.5">
+          {/* Search Bar - Takes more space */}
+          <div className="flex-1 mx-2">
             <input
               type="text"
               placeholder="Search menu..."
               value={searchTerm}
               onChange={(e) => handleSearch(e.target.value)}
-              className="w-full h-9 px-4 bg-white border border-gray-300 rounded-lg
-                       text-gray-700 text-sm focus:outline-none"
+              className="w-full h-8 px-3 bg-white dark:bg-dark-card border border-gray-300 dark:border-dark-border rounded-md
+                       text-gray-700 dark:text-gray-200 text-sm focus:outline-none"
             />
           </div>
 
           {/* Menu Button */}
           <button
             onClick={() => setIsMenuOpen(true)}
-            className="h-9 w-24 flex items-center justify-center gap-2 bg-white 
-                     border border-gray-300 rounded-lg text-gray-700 text-sm shrink-0"
+            className="h-8 px-4 flex items-center justify-center gap-2 bg-white dark:bg-dark-card 
+                     border border-gray-300 dark:border-dark-border rounded-md text-gray-700 dark:text-gray-200 text-sm shrink-0 ml-2"
           >
             <span>Menu</span>
             <IoRestaurantOutline className="w-4 h-4" />

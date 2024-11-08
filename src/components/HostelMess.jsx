@@ -347,7 +347,7 @@ const HostelMess = () => {
   useEffect(() => {
     // Get current day and time
     const now = new Date();
-    const currentDay = now.getDay(); // 0 is Sunday, 1 is Monday, etc.
+    const currentDay = now.getDay();
     const currentHour = now.getHours();
 
     // Map days to state values
@@ -363,26 +363,29 @@ const HostelMess = () => {
 
     setSelectedDay(dayMap[currentDay]);
 
-    // Determine meal time section
-    let mealSection = '';
-    if (currentHour >= 4 && currentHour < 10) {
-      mealSection = 'breakfast';
-    } else if (currentHour >= 10 && currentHour < 15) {
-      mealSection = 'lunch';
-    } else if (currentHour >= 15 && currentHour < 18) {
-      mealSection = 'snacks';
-    } else {
-      mealSection = 'dinner';
-    }
-
-    // Scroll to current meal after a short delay
-    setTimeout(() => {
-      const element = document.getElementById(mealSection);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Only scroll if not searching
+    if (!searchTerm) {
+      // Determine meal time section
+      let mealSection = '';
+      if (currentHour >= 4 && currentHour < 10) {
+        mealSection = 'breakfast';
+      } else if (currentHour >= 10 && currentHour < 15) {
+        mealSection = 'lunch';
+      } else if (currentHour >= 15 && currentHour < 18) {
+        mealSection = 'snacks';
+      } else {
+        mealSection = 'dinner';
       }
-    }, 500);
-  }, []);
+
+      // Scroll to current meal after a short delay
+      setTimeout(() => {
+        const element = document.getElementById(mealSection);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 500);
+    }
+  }, [searchTerm]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -412,37 +415,47 @@ const HostelMess = () => {
   const getFilteredMenu = () => {
     if (!searchTerm) return hostelMenu[selectedDay];
 
-    const filteredSections = {};
-    Object.entries(hostelMenu[selectedDay]).forEach(([mealTime, meal]) => {
-      const filteredItems = meal.items.filter(item => 
-        item.toLowerCase().includes(searchTerm)
-      );
-      if (filteredItems.length > 0) {
-        filteredSections[mealTime] = {
-          ...meal,
-          items: filteredItems
-        };
-      }
-    });
-    return filteredSections;
+    if (searchTerm) {
+      const filteredDays = {};
+      Object.entries(hostelMenu).forEach(([day, dayMenu]) => {
+        const filteredSections = {};
+        Object.entries(dayMenu).forEach(([mealTime, meal]) => {
+          const filteredItems = meal.items.filter(item => 
+            item.toLowerCase().includes(searchTerm)
+          );
+          if (filteredItems.length > 0) {
+            filteredSections[mealTime] = {
+              ...meal,
+              items: filteredItems
+            };
+          }
+        });
+        if (Object.keys(filteredSections).length > 0) {
+          filteredDays[day] = filteredSections;
+        }
+      });
+      return filteredDays;
+    }
+    
+    return hostelMenu[selectedDay];
   };
 
   const filteredMenu = getFilteredMenu();
   const hasResults = Object.keys(filteredMenu).length > 0;
 
   return (
-    <div className="p-0 bg-white">
+    <div className="p-2 md:p-4 bg-white dark:bg-[#121212]">
       {/* Fixed Header */}
-      <div className="fixed top-0 right-0 left-0 bg-gray-100 z-50 border-b border-gray-200/50 shadow-sm">
+      <div className="fixed top-0 right-0 left-0 bg-gray-100 dark:bg-dark-header z-50 border-b border-gray-200/50 dark:border-dark-border shadow-sm">
         <div className="flex items-center justify-between px-4 py-3">
-          <h2 className={`text-base font-medium text-gray-900 transition-opacity duration-300
+          <h2 className={`text-base font-medium text-gray-900 dark:text-gray-100 transition-opacity duration-300
                        ${isScrolled ? 'opacity-100' : 'opacity-0'}`}>
             Hostel Mess Menu
           </h2>
         </div>
 
-        {/* Day Selection Tabs - More compact on mobile */}
-        <div className="flex overflow-x-auto hide-scrollbar border-b border-gray-200/50">
+        {/* Day Selection Tabs */}
+        <div className="flex overflow-x-auto hide-scrollbar border-b border-gray-200/50 dark:border-dark-border">
           <div className="flex-none px-2 md:px-4 min-w-[500px] md:min-w-[768px] mx-auto">
             {Object.keys(hostelMenu).map((day) => (
               <button
@@ -450,15 +463,15 @@ const HostelMess = () => {
                 onClick={() => setSelectedDay(day)}
                 className={`px-3 md:px-6 py-2 text-sm font-medium transition-colors relative
                          ${selectedDay === day 
-                           ? 'text-gray-900' 
-                           : 'text-gray-600 hover:text-gray-900'}`}
+                           ? 'text-gray-900 dark:text-gray-100' 
+                           : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'}`}
               >
                 <span className="md:hidden">{getShortDayName(day)}</span>
                 <span className="hidden md:inline">{day.charAt(0).toUpperCase() + day.slice(1)}</span>
                 {selectedDay === day && (
                   <motion.div 
                     layoutId="activeDay"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-900"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-900 dark:bg-gray-100"
                   />
                 )}
               </button>
@@ -467,44 +480,80 @@ const HostelMess = () => {
         </div>
       </div>
 
-      {/* Main Content - Reduced spacing */}
-      <div className="pt-5 px-4 md:pt-20 md:px-6 max-w-5xl mx-auto">
-        {/* Title Section - Hidden on mobile when scrolled */}
+      {/* Main Content */}
+      <div className="pt-5 px-2 md:pt-20 md:px-6 max-w-5xl mx-auto">
+        {/* Title Section */}
         <div className="space-y-1 mb-3">
-          <h1 className={`text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight 
+          <h1 className={`text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight 
                        font-[system-ui] transition-opacity duration-300 pl-2 md:pl-0
                        ${isScrolled ? 'opacity-0' : 'opacity-100'}`}>
             Hostel Mess Menu
           </h1>
         </div>
 
-        {/* Menu Sections - Responsive grid based on screen width */}
+        {/* Menu Sections */}
         <div className="grid grid-cols-1 gap-2 md:gap-3">
           {hasResults ? (
-            <div className={`grid gap-2 md:gap-3
-                   grid-cols-1                    // Single column on mobile
-                   min-[640px]:grid-cols-2        // 2x2 grid for tablets
-                   lg:grid-cols-4                 // 4x1 grid for large screens
-                   w-full min-[640px]:max-w-[768px] lg:max-w-[1200px] // Full width on mobile, max-width for larger screens
-                   mx-auto                        // Center the grid
-                   `}>
-              {Object.entries(filteredMenu).map(([mealTime, meal]) => (
-                <div key={mealTime} id={mealTime} className="flex flex-col">
-                  <div className="flex items-center justify-between mb-2 px-2">
-                    <h3 className="text-base md:text-lg font-semibold text-gray-900">{meal.title}</h3>
-                    <span className="text-xs md:text-sm text-gray-600">{meal.time}</span>
-                  </div>
-                  <div className="bg-gray-100 rounded-lg overflow-hidden flex-1">
-                    <div className="p-2 md:p-3 space-y-0.5 md:space-y-1">
-                      {meal.items.map((item, index) => (
-                        <div key={index} className="p-1.5 md:p-2 hover:bg-gray-200/50 rounded transition-all duration-200 px-3">
-                          <span className="text-sm text-gray-700">{item}</span>
+            <div className="space-y-6">
+              {searchTerm ? (
+                Object.entries(filteredMenu).map(([day, dayMenu]) => (
+                  <div key={day} className="space-y-3">
+                    <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 capitalize">
+                      <span className="hidden min-[640px]:inline">{day.charAt(0).toUpperCase() + day.slice(1)}</span>
+                      <span className="min-[640px]:hidden">{getShortDayName(day)}</span>
+                    </h2>
+                    <div className={`grid gap-2 md:gap-3
+                      grid-cols-1
+                      min-[640px]:grid-cols-2
+                      lg:grid-cols-4
+                      w-full min-[640px]:max-w-[768px] lg:max-w-[1200px]
+                      mx-auto`}>
+                      {Object.entries(dayMenu).map(([mealTime, meal]) => (
+                        <div key={mealTime} id={mealTime} className="flex flex-col">
+                          <div className="flex items-center justify-between mb-2 px-2">
+                            <h3 className="text-base md:text-lg font-semibold text-gray-900 dark:text-gray-100">{meal.title}</h3>
+                            <span className="text-xs md:text-sm text-gray-600 dark:text-gray-400">{meal.time}</span>
+                          </div>
+                          <div className="bg-gray-100 dark:bg-dark-section rounded-lg overflow-hidden flex-1">
+                            <div className="p-2 md:p-3 space-y-0.5 md:space-y-1">
+                              {meal.items.map((item, index) => (
+                                <div key={index} className="p-1.5 md:p-2 hover:bg-gray-200/50 dark:hover:bg-dark-hover rounded transition-all duration-200 px-3">
+                                  <span className="text-sm text-gray-700 dark:text-gray-300">{item}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>
                   </div>
+                ))
+              ) : (
+                <div className={`grid gap-2 md:gap-3
+                  grid-cols-1
+                  min-[640px]:grid-cols-2
+                  lg:grid-cols-4
+                  w-full min-[640px]:max-w-[768px] lg:max-w-[1200px]
+                  mx-auto`}>
+                  {Object.entries(filteredMenu).map(([mealTime, meal]) => (
+                    <div key={mealTime} id={mealTime} className="flex flex-col">
+                      <div className="flex items-center justify-between mb-2 px-2">
+                        <h3 className="text-base md:text-lg font-semibold text-gray-900 dark:text-gray-100">{meal.title}</h3>
+                        <span className="text-xs md:text-sm text-gray-600 dark:text-gray-400">{meal.time}</span>
+                      </div>
+                      <div className="bg-gray-100 dark:bg-dark-section rounded-lg overflow-hidden flex-1">
+                        <div className="p-2 md:p-3 space-y-0.5 md:space-y-1">
+                          {meal.items.map((item, index) => (
+                            <div key={index} className="p-1.5 md:p-2 hover:bg-gray-200/50 dark:hover:bg-dark-hover rounded transition-all duration-200 px-3">
+                              <span className="text-sm text-gray-700 dark:text-gray-300">{item}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              )}
             </div>
           ) : (
             <div className="col-span-full flex flex-col items-center justify-center py-12 px-4">
@@ -517,26 +566,27 @@ const HostelMess = () => {
         </div>
       </div>
 
-      {/* Fixed Bottom Bar - Only show on mobile */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-gray-100 border-t border-gray-200/50 z-40">
-        <div className="flex items-center gap-3 px-4 py-2">
-          {/* Search Bar - Full width with padding for menu button */}
-          <div className="flex-1">
+      {/* Fixed Bottom Bar */}
+      <div className="md:hidden fixed bottom-0 right-0 bg-gray-100 dark:bg-dark-header border-t border-gray-200/50 dark:border-dark-border z-30 rounded-t-md
+                transition-all duration-300
+                left-0"
+      >
+        <div className="flex items-center justify-between px-1.5 py-1.5">
+          <div className="flex-1 mx-1.5">
             <input
               type="text"
               placeholder="Search menu..."
               value={searchTerm}
               onChange={(e) => handleSearch(e.target.value)}
-              className="w-full h-9 px-4 bg-white border border-gray-300 rounded-lg
-                       text-gray-700 text-sm focus:outline-none"
+              className="w-full h-8 px-3 bg-white dark:bg-dark-card border border-gray-300 dark:border-dark-border rounded-md
+                       text-gray-700 dark:text-gray-200 text-sm focus:outline-none"
             />
           </div>
 
-          {/* Menu Button */}
           <button
             onClick={() => setIsMenuOpen(true)}
-            className="h-9 w-24 flex items-center justify-center gap-2 bg-white 
-                     border border-gray-300 rounded-lg text-gray-700 text-sm shrink-0"
+            className="h-8 px-3 flex items-center justify-center gap-2 bg-white dark:bg-dark-card 
+                     border border-gray-300 dark:border-dark-border rounded-md text-gray-700 dark:text-gray-200 text-sm shrink-0 ml-1.5"
           >
             <span>Menu</span>
             <IoRestaurantOutline className="w-4 h-4" />
@@ -546,7 +596,7 @@ const HostelMess = () => {
         <div className="h-[env(safe-area-inset-bottom,0px)]" />
       </div>
 
-      {/* Bottom spacer - Only show on mobile */}
+      {/* Bottom spacer */}
       <div className="md:hidden h-[calc(3.5rem+env(safe-area-inset-bottom,0px))]" />
 
       {/* Menu Modal */}

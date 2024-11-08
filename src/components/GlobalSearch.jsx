@@ -7,7 +7,7 @@ const GlobalSearch = ({ onSearch }) => {
   const location = useLocation();
 
   // Don't show on analytics or other non-menu pages
-  const nonMenuPaths = ['/analytics', '/about', '/terms', '/privacy', '/contact'];
+  const nonMenuPaths = ['/about', '/terms', '/privacy', '/contact'];
   if (nonMenuPaths.includes(location.pathname)) {
     return null;
   }

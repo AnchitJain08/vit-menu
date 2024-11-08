@@ -12,8 +12,9 @@ const CartButton = () => {
   return (
     <button
       onClick={() => navigate('/cart')}
-      className="fixed top-4 right-20 z-50 p-2 bg-gray-800 text-white rounded-full 
-                shadow-lg hover:bg-gray-700 transition-colors duration-200"
+      className="fixed top-4 right-20 z-50 p-2 bg-dark-card text-gray-200 
+                rounded-full shadow-lg hover:bg-dark-hover 
+                border border-dark-border transition-colors duration-200"
     >
       <div className="relative">
         <FaShoppingCart className="w-6 h-6" />

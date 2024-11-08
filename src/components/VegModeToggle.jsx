@@ -12,11 +12,13 @@ const VegModeToggle = () => {
                    transition-all duration-200 backdrop-blur-sm
                    ${isVegMode 
                      ? 'bg-green-500/90 text-white' 
-                     : 'bg-white/90 text-gray-700'}`}
+                     : 'bg-white/90 dark:bg-dark-card text-gray-700 dark:text-gray-200'}`}
       >
         <span className="text-sm font-medium">VEG</span>
         <div className={`ml-2 w-4 h-4 rounded-full border-2 
-                      ${isVegMode ? 'border-white bg-green-500' : 'border-gray-400'}`} />
+                      ${isVegMode 
+                        ? 'border-white bg-green-500' 
+                        : 'border-gray-400 dark:border-gray-500'}`} />
       </button>
     </div>
   );

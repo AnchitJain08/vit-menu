@@ -49,91 +49,83 @@ const CRCL = ({ isExpanded, isMobile }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const getIconForSection = (key) => ({
-    quickBites: <GiCoffeeCup className="w-6 h-6" />,
-    tandoor: <GiChickenOven className="w-6 h-6" />,
-    mainCourse: <BiDish className="w-6 h-6" />,
-    breads: <GiBreadSlice className="w-6 h-6" />,
-    paratha: <MdFoodBank className="w-6 h-6" />,
-    dosa: <MdFoodBank className="w-6 h-6" />,
-    chinese: <GiNoodles className="w-6 h-6" />
-  }[key] || null);
+  
 
   const menu = {
     mainCourse: {
       title: "Main Course",
       items: [
-        { name: "Kadai Paneer", price: "180", isVeg: true },
-        { name: "Chilly Paneer", price: "180", isVeg: true },
-        { name: "Chilly Chicken", price: "200", isVeg: false },
-        { name: "Butter Paneer Masala", price: "190", isVeg: true },
-        { name: "Kadai Chicken", price: "210", isVeg: false },
-        { name: "Masala Chicken", price: "210", isVeg: false },
-        { name: "Butter Chicken Masala", price: "230", isVeg: false }
+        { name: "Kadai Paneer", price: "₹180", isVeg: true },
+        { name: "Chilly Paneer", price: "₹180", isVeg: true },
+        { name: "Chilly Chicken", price: "₹200", isVeg: false },
+        { name: "Butter Paneer Masala", price: "₹190", isVeg: true },
+        { name: "Kadai Chicken", price: "₹210", isVeg: false },
+        { name: "Masala Chicken", price: "₹210", isVeg: false },
+        { name: "Butter Chicken Masala", price: "₹230", isVeg: false }
       ]
     },
     chinese: {
       title: "Chinese",
       items: [
-        { name: "Veg Fried Rice", price: "120", isVeg: true },
-        { name: "Chicken Fried Rice", price: "150", isVeg: false },
-        { name: "Egg Fried Rice", price: "130", isVeg: false },
-        { name: "Schezwan Veg Fried Rice", price: "140", isVeg: true },
-        { name: "Schezwan Chicken Rice", price: "170", isVeg: false },
-        { name: "Chicken Noodles", price: "150", isVeg: false },
-        { name: "Schezwan Veg Noodles", price: "140", isVeg: true },
-        { name: "Schezwan Chicken Noodles", price: "170", isVeg: false },
-        { name: "Egg Noodles", price: "130", isVeg: false }
+        { name: "Veg Fried Rice", price: "₹120", isVeg: true },
+        { name: "Chicken Fried Rice", price: "₹150", isVeg: false },
+        { name: "Egg Fried Rice", price: "₹130", isVeg: false },
+        { name: "Schezwan Veg Fried Rice", price: "₹140", isVeg: true },
+        { name: "Schezwan Chicken Rice", price: "₹170", isVeg: false },
+        { name: "Chicken Noodles", price: "₹150", isVeg: false },
+        { name: "Schezwan Veg Noodles", price: "₹140", isVeg: true },
+        { name: "Schezwan Chicken Noodles", price: "₹170", isVeg: false },
+        { name: "Egg Noodles", price: "₹130", isVeg: false }
       ]
     },
     tandoor: {
       title: "Tandoor Specialties",
       items: [
-        { name: "Paneer Tikka", price: "180", isVeg: true },
-        { name: "Paneer Tikka Masala", price: "200", isVeg: true },
-        { name: "Chicken Tikka", price: "220", isVeg: false },
-        { name: "Chicken Tikka Masala", price: "240", isVeg: false },
-        { name: "Chicken 65", price: "200", isVeg: false },
-        { name: "Tandoori Chicken (Full)", price: "450", isVeg: false },
-        { name: "Tandoori Chicken (Half)", price: "250", isVeg: false },
-        { name: "Tandoori Chicken (Quarter)", price: "140", isVeg: false }
+        { name: "Paneer Tikka", price: "₹180", isVeg: true },
+        { name: "Paneer Tikka Masala", price: "₹200", isVeg: true },
+        { name: "Chicken Tikka", price: "₹220", isVeg: false },
+        { name: "Chicken Tikka Masala", price: "₹240", isVeg: false },
+        { name: "Chicken 65", price: "₹200", isVeg: false },
+        { name: "Tandoori Chicken (Full)", price: "₹450", isVeg: false },
+        { name: "Tandoori Chicken (Half)", price: "₹250", isVeg: false },
+        { name: "Tandoori Chicken (Quarter)", price: "₹140", isVeg: false }
       ]
     },
     quickBites: {
       title: "Quick Bites",
       items: [
-        { name: "Bread Omelet", price: "60", isVeg: false },
-        { name: "Plain Omelet", price: "40", isVeg: false },
-        { name: "Samosa", price: "15", isVeg: true },
-        { name: "Bread Pakode", price: "30", isVeg: true },
-        { name: "Boiled Egg", price: "15", isVeg: false }
+        { name: "Bread Omelet", price: "₹60", isVeg: false },
+        { name: "Plain Omelet", price: "₹40", isVeg: false },
+        { name: "Samosa", price: "₹15", isVeg: true },
+        { name: "Bread Pakode", price: "₹30", isVeg: true },
+        { name: "Boiled Egg", price: "₹15", isVeg: false }
       ]
     },
     dosa: {
       title: "Dosa",
       items: [
-        { name: "Plain Dosa", price: "70", isVeg: true },
-        { name: "Ghee Dosa", price: "90", isVeg: true },
-        { name: "Onion Dosa", price: "90", isVeg: true },
-        { name: "Masala Dosa", price: "100", isVeg: true }
+        { name: "Plain Dosa", price: "₹70", isVeg: true },
+        { name: "Ghee Dosa", price: "₹90", isVeg: true },
+        { name: "Onion Dosa", price: "₹90", isVeg: true },
+        { name: "Masala Dosa", price: "₹100", isVeg: true }
       ]
     },
     paratha: {
       title: "Kothu Paratha",
       items: [
-        { name: "Veg Kothu Paratha", price: "120", isVeg: true },
-        { name: "Chicken Kothu Paratha", price: "150", isVeg: false }
+        { name: "Veg Kothu Paratha", price: "₹120", isVeg: true },
+        { name: "Chicken Kothu Paratha", price: "₹150", isVeg: false }
       ]
     },
     breads: {
       title: "Breads",
       items: [
-        { name: "Plain Roti", price: "15", isVeg: true },
-        { name: "Butter Roti", price: "20", isVeg: true },
-        { name: "Plain Naan", price: "30", isVeg: true },
-        { name: "Butter Naan", price: "40", isVeg: true },
-        { name: "Garlic Naan", price: "45", isVeg: true },
-        { name: "Butter Kulcha", price: "45", isVeg: true }
+        { name: "Plain Roti", price: "₹15", isVeg: true },
+        { name: "Butter Roti", price: "₹20", isVeg: true },
+        { name: "Plain Naan", price: "₹30", isVeg: true },
+        { name: "Butter Naan", price: "₹40", isVeg: true },
+        { name: "Garlic Naan", price: "₹45", isVeg: true },
+        { name: "Butter Kulcha", price: "₹45", isVeg: true }
       ]
     }
   };
@@ -178,17 +170,11 @@ const CRCL = ({ isExpanded, isMobile }) => {
     });
   };
 
-  const addGST = (price) => {
-    const basePrice = parseInt(price.replace(/[^0-9]/g, ''));
-    const withGST = basePrice * 1.05;
-    return Math.round(withGST);
-  };
-
   const handleAddToCart = (item) => {
-    const priceWithGST = addGST(item.price);
+    const basePrice = parseInt(item.price.replace(/[^0-9]/g, ''));
     addToCart({ 
       ...item, 
-      price: priceWithGST,
+      price: basePrice,
       restaurant: "CRCL Cafe",
       originalPrice: item.price
     });
@@ -250,10 +236,10 @@ const CRCL = ({ isExpanded, isMobile }) => {
   };
 
   return (
-    <div className="p-0 bg-white">
+    <div className="p-2 md:p-4 bg-white dark:bg-[#121212]">
       {/* Fixed Header - Always visible */}
-      <div className="fixed top-0 right-0 bg-gray-100 z-50
-                     border-b border-gray-200/50 shadow-sm
+      <div className="fixed top-0 right-0 bg-white dark:bg-dark-header z-50
+                     border-b border-gray-200 dark:border-dark-border
                      transition-all duration-300
                      md:left-16 lg:left-[var(--sidebar-width)]"
         style={{ 
@@ -264,10 +250,10 @@ const CRCL = ({ isExpanded, isMobile }) => {
         <div className="flex items-center justify-between px-4 py-2.5">
           {/* Restaurant Name - Always left aligned */}
           <div className="flex-1">
-            <h2 className={`text-base font-medium text-gray-900
+            <h2 className={`text-base font-medium text-gray-900 dark:text-white
                          ${isMobile ? 'ml-20' : 'ml-6'}
                          transition-opacity duration-300
-                         ${isScrolled ? 'opacity-100 z-[120]' : 'opacity-0'}`}>
+                         ${isScrolled ? 'opacity-100' : 'opacity-0'}`}>
               CRCL Cafe
             </h2>
           </div>
@@ -281,7 +267,7 @@ const CRCL = ({ isExpanded, isMobile }) => {
                         transition-all duration-200 backdrop-blur-sm border text-sm font-medium
                         ${isVegMode 
                           ? 'bg-green-500/20 text-green-500 border-green-500/30' 
-                          : 'bg-gray-200/20 text-gray-700 border-gray-300/30'}`}
+                          : 'bg-gray-200/20 text-gray-700 dark:text-gray-200 border-gray-300/30'}`}
             >
               <span className="font-medium">VEG</span>
               <div className={`ml-1.5 w-2 h-2 rounded-full 
@@ -317,11 +303,11 @@ const CRCL = ({ isExpanded, isMobile }) => {
       </div>
 
       {/* Main Content */}
-      <div className="pt-0 px-4">
+      <div className="pt-0">
         {/* Restaurant Title and Rating */}
         <div className="space-y-1">
           <div className="flex items-start justify-between">
-            <h1 className={`text-3xl font-extrabold text-gray-900 tracking-tight 
+            <h1 className={`text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight 
                          font-[system-ui] transition-opacity duration-300
                          ${isScrolled ? 'opacity-0' : 'opacity-100'}`}>
               CRCL Cafe
@@ -348,7 +334,7 @@ const CRCL = ({ isExpanded, isMobile }) => {
         </div>
 
         {/* Menu Grid */}
-        <div className="grid grid-cols-1 gap-3 mt-6">
+        <div className="grid grid-cols-1 gap-3 mt-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-auto gap-3">
             {Object.entries(searchTerm || isVegMode ? filteredMenu : menu).map(([key, section]) => {
               // Count number of items
@@ -376,24 +362,24 @@ const CRCL = ({ isExpanded, isMobile }) => {
                   className={`space-y-2 ${columnSpan}`}
                 >
                   {/* Section Title */}
-                  <h3 className="text-lg font-semibold text-gray-900 px-2">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 px-2">
                     {section.title}
                   </h3>
 
                   {/* Section Content */}
-                  <div className="bg-gray-100 rounded-lg overflow-hidden">
+                  <div className="bg-gray-100 dark:bg-dark-section rounded-lg overflow-hidden">
                     <div className={`p-3 ${gridClass}`}>
                       {section.items.map((item, index) => (
                         <div key={index} className="flex justify-between items-center p-2 
-                                                  hover:bg-gray-200/50 rounded 
+                                                  hover:bg-gray-200 dark:hover:bg-dark-hover rounded 
                                                   transition-all duration-200">
                           <div className="flex-1">
                             <div className="flex items-center gap-2">
                               <span className={`w-2 h-2 rounded-full ${item.isVeg ? 'bg-green-500' : 'bg-red-500'}`}/>
-                              <span className="font-medium text-sm text-gray-900">{item.name}</span>
+                              <span className="font-medium text-sm text-gray-900 dark:text-gray-100">{item.name}</span>
                             </div>
                             <div className="flex items-center justify-between mt-1">
-                              <span className="text-gray-600 text-sm">₹{item.price}</span>
+                              <span className="text-gray-600 dark:text-gray-400">{item.price}</span>
                             </div>
                           </div>
                           <AnimatePresence mode="wait">
@@ -441,25 +427,30 @@ const CRCL = ({ isExpanded, isMobile }) => {
       </div>
 
       {/* Fixed Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-gray-100 border-t border-gray-200/50 z-40">
-        <div className="flex items-center justify-end gap-3 px-4 py-2">
-          {/* Search Bar - Fixed width */}
-          <div className="w-[70%] max-w-[300px]">
+      <div className="fixed bottom-0 right-0 bg-gray-100 dark:bg-dark-header border-t border-gray-200/50 dark:border-dark-border z-30 rounded-t-md
+                  transition-all duration-300
+                  md:left-16 lg:left-[var(--sidebar-width)]"
+           style={{ 
+             '--sidebar-width': isExpanded ? '256px' : '64px',
+             left: isMobile ? '0' : undefined 
+           }}
+      >
+        <div className="flex items-center justify-between px-1.5 py-1.5">
+          <div className="flex-1 mx-1.5">
             <input
               type="text"
               placeholder="Search menu..."
               value={searchTerm}
               onChange={(e) => handleSearch(e.target.value)}
-              className="w-full h-9 px-4 bg-white border border-gray-300 rounded-lg
-                       text-gray-700 text-sm focus:outline-none"
+              className="w-full h-8 px-3 bg-white dark:bg-dark-card border border-gray-300 dark:border-dark-border rounded-md
+                       text-gray-700 dark:text-gray-200 text-sm focus:outline-none"
             />
           </div>
 
-          {/* Menu Button */}
           <button
             onClick={() => setIsMenuOpen(true)}
-            className="h-9 w-24 flex items-center justify-center gap-2 bg-white 
-                     border border-gray-300 rounded-lg text-gray-700 text-sm shrink-0"
+            className="h-8 px-3 flex items-center justify-center gap-2 bg-white dark:bg-dark-card 
+                     border border-gray-300 dark:border-dark-border rounded-md text-gray-700 dark:text-gray-200 text-sm shrink-0 ml-1.5"
           >
             <span>Menu</span>
             <IoRestaurantOutline className="w-4 h-4" />

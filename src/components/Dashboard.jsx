@@ -17,7 +17,6 @@ import Cart from './Cart';
 import { VariantModalProvider } from '../context/VariantModalContext';
 import Header from './Header';
 import BottomControls from './BottomControls';
-import FloatingFooterControls from './FloatingFooterControls';
 
 const Dashboard = () => {
   const [isExpanded, setIsExpanded] = useState(window.innerWidth >= 768);
@@ -47,7 +46,7 @@ const Dashboard = () => {
         <VegModeProvider>
           <CartProvider>
             <VariantModalProvider>
-              <div className="min-h-screen bg-gray-50">
+              <div className="min-h-screen bg-white dark:bg-[#121212]">
                 <Header />
                 <BottomControls 
                   isExpanded={isExpanded}
@@ -58,7 +57,7 @@ const Dashboard = () => {
                   <Sidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} isMobile={isMobile} />
                   <div className={`flex-1 transition-all duration-300 
                                 ${isExpanded ? 'lg:ml-64' : 'lg:ml-20 md:ml-16'}`}>
-                    <main className="bg-gray-50 min-h-screen">
+                    <main className="bg-white dark:bg-[#121212] min-h-screen">
                       <div className={`container mx-auto px-4 transition-all duration-300 
                                      ${isExpanded ? 'max-w-[1600px]' : 'max-w-[1800px]'}`}>
                         <Routes>
@@ -113,11 +112,6 @@ const Dashboard = () => {
                     </main>
                   </div>
                 </div>
-                <FloatingFooterControls 
-                  isExpanded={isExpanded}
-                  setIsExpanded={setIsExpanded}
-                  isMobile={isMobile}
-                />
               </div>
             </VariantModalProvider>
           </CartProvider>

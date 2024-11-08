@@ -30,7 +30,7 @@ const Sidebar = ({ isExpanded, setIsExpanded, isMobile }) => {
         <button 
           onClick={handleExpandToggle}
           className="fixed top-4 left-4 z-[100] h-8 w-8 flex items-center justify-center 
-                   bg-gray-200 text-gray-700 rounded-lg border border-gray-300"
+                   bg-dark-card text-gray-200 dark:bg-gray-800 dark:text-white rounded-lg border border-dark-border"
           aria-label="Toggle menu"
         >
           <IoMenu className="w-3.5 h-3.5" />
@@ -38,21 +38,21 @@ const Sidebar = ({ isExpanded, setIsExpanded, isMobile }) => {
       )}
 
       {/* Sidebar content */}
-      <div className={`fixed inset-y-0 left-0 bg-gray-800 text-white
+      <div className={`fixed inset-y-0 left-0 bg-gray-800 text-white dark:bg-dark-section dark:text-gray-200
                     transition-all duration-300 
                     ${isMobile ? 'w-64' : isExpanded ? 'w-64' : 'w-16'}
                     ${isMobile ? (isExpanded ? 'translate-x-0 z-[110]' : '-translate-x-full z-20') : 'translate-x-0 z-[110]'}`}
       >
         <div className="h-full overflow-y-auto flex flex-col">
           {/* Title with expand/collapse button */}
-          <div className="p-4 border-b border-gray-700 flex items-center justify-between">
+          <div className="p-4 border-b border-gray-700 dark:border-dark-border flex items-center justify-between">
             {isExpanded ? (
               <>
                 <h1 className="text-lg font-semibold">VIT Bhopal Menu</h1>
                 {!isMobile && (
                   <button
                     onClick={handleExpandToggle}
-                    className="p-1 hover:bg-gray-700/50 rounded-lg transition-colors"
+                    className="p-1 hover:bg-gray-700/50 dark:hover:bg-dark-hover rounded-lg transition-colors"
                     aria-label="Collapse sidebar"
                   >
                     <IoChevronForward className="w-5 h-5 rotate-180" />
@@ -62,7 +62,7 @@ const Sidebar = ({ isExpanded, setIsExpanded, isMobile }) => {
             ) : !isMobile && (
               <button
                 onClick={handleExpandToggle}
-                className="p-1 hover:bg-gray-700/50 rounded-lg transition-colors"
+                className="p-1 hover:bg-gray-700/50 dark:hover:bg-dark-hover rounded-lg transition-colors"
                 aria-label="Expand sidebar"
               >
                 <IoChevronForward className="w-5 h-5" />
@@ -75,7 +75,7 @@ const Sidebar = ({ isExpanded, setIsExpanded, isMobile }) => {
             {/* Campus Cafes Section */}
             {isExpanded && (
               <div className="px-4 mb-2">
-                <h2 className="text-sm font-medium text-gray-400">Campus Cafes</h2>
+                <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400">Campus Cafes</h2>
               </div>
             )}
             <nav className="space-y-1 px-2">
@@ -83,8 +83,10 @@ const Sidebar = ({ isExpanded, setIsExpanded, isMobile }) => {
                 to="/underbelly"
                 onClick={handleLinkClick}
                 className={`flex items-center gap-3 px-3 py-2 rounded-lg
-                          transition-colors duration-200 hover:bg-gray-700/50
-                          ${isActive('/underbelly')}`}
+                          transition-colors duration-200 
+                          hover:bg-gray-700 dark:hover:bg-dark-hover
+                          text-gray-200 dark:text-gray-100
+                          ${isActive('/underbelly') ? 'bg-gray-700 dark:bg-dark-hover' : ''}`}
                 title={!isExpanded ? "Under Belly" : ""}
               >
                 <SiCodechef className="w-5 h-5 min-w-[20px]" />
@@ -94,7 +96,7 @@ const Sidebar = ({ isExpanded, setIsExpanded, isMobile }) => {
                 to="/mayuri"
                 onClick={handleLinkClick}
                 className={`flex items-center gap-3 px-3 py-2 rounded-lg
-                          transition-colors duration-200 hover:bg-gray-700/50
+                          transition-colors duration-200 hover:bg-gray-700/50 dark:hover:bg-dark-hover
                           ${isActive('/mayuri')}`}
                 title={!isExpanded ? "Mayuri" : ""}
               >
@@ -105,7 +107,7 @@ const Sidebar = ({ isExpanded, setIsExpanded, isMobile }) => {
                 to="/crcl"
                 onClick={handleLinkClick}
                 className={`flex items-center gap-3 px-3 py-2 rounded-lg
-                          transition-colors duration-200 hover:bg-gray-700/50
+                          transition-colors duration-200 hover:bg-gray-700/50 dark:hover:bg-dark-hover
                           ${isActive('/crcl')}`}
                 title={!isExpanded ? "CRCL" : ""}
               >
@@ -117,7 +119,7 @@ const Sidebar = ({ isExpanded, setIsExpanded, isMobile }) => {
             {/* Hostel Section */}
             {isExpanded && (
               <div className="px-4 mt-6 mb-2">
-                <h2 className="text-sm font-medium text-gray-400">Hostel</h2>
+                <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400">Hostel</h2>
               </div>
             )}
             <nav className="space-y-1 px-2">
@@ -125,7 +127,7 @@ const Sidebar = ({ isExpanded, setIsExpanded, isMobile }) => {
                 to="/hostel-mess"
                 onClick={handleLinkClick}
                 className={`flex items-center gap-3 px-3 py-2 rounded-lg
-                          transition-colors duration-200 hover:bg-gray-700/50
+                          transition-colors duration-200 hover:bg-gray-700/50 dark:hover:bg-dark-hover
                           ${isActive('/hostel-mess')}`}
                 title={!isExpanded ? "Hostel Mess Menu" : ""}
               >
@@ -138,32 +140,32 @@ const Sidebar = ({ isExpanded, setIsExpanded, isMobile }) => {
           {/* Footer Links - Only show when expanded */}
           {isExpanded && (
             <div className="mt-auto py-4">
-              <div className="grid grid-cols-2 gap-x-4 gap-y-2 px-4 text-sm text-gray-400">
+              <div className="grid grid-cols-2 gap-x-4 gap-y-2 px-4 text-sm text-gray-400 dark:text-gray-300">
                 <Link
                   to="/about"
                   onClick={handleLinkClick}
-                  className="hover:text-gray-300 transition-colors duration-200"
+                  className="hover:text-gray-300 dark:hover:text-gray-200 transition-colors duration-200"
                 >
                   About Us
                 </Link>
                 <Link
                   to="/terms"
                   onClick={handleLinkClick}
-                  className="hover:text-gray-300 transition-colors duration-200"
+                  className="hover:text-gray-300 dark:hover:text-gray-200 transition-colors duration-200"
                 >
                   Terms & Conditions
                 </Link>
                 <Link
                   to="/privacy"
                   onClick={handleLinkClick}
-                  className="hover:text-gray-300 transition-colors duration-200"
+                  className="hover:text-gray-300 dark:hover:text-gray-200 transition-colors duration-200"
                 >
                   Privacy Policy
                 </Link>
                 <Link
                   to="/contact"
                   onClick={handleLinkClick}
-                  className="hover:text-gray-300 transition-colors duration-200"
+                  className="hover:text-gray-300 dark:hover:text-gray-200 transition-colors duration-200"
                 >
                   Contact Us
                 </Link>
