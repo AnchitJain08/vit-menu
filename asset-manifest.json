@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/vit-menu/static/css/main.c9590c4c.css",
-    "main.js": "/vit-menu/static/js/main.d17f8293.js",
+    "main.css": "/vit-menu/static/css/main.487cf981.css",
+    "main.js": "/vit-menu/static/js/main.c3479653.js",
     "static/js/239.52d011a0.chunk.js": "/vit-menu/static/js/239.52d011a0.chunk.js",
     "static/js/213.37948a0a.chunk.js": "/vit-menu/static/js/213.37948a0a.chunk.js",
     "static/js/732.c1deefbd.chunk.js": "/vit-menu/static/js/732.c1deefbd.chunk.js",
     "index.html": "/vit-menu/index.html",
-    "main.c9590c4c.css.map": "/vit-menu/static/css/main.c9590c4c.css.map",
-    "main.d17f8293.js.map": "/vit-menu/static/js/main.d17f8293.js.map",
+    "main.487cf981.css.map": "/vit-menu/static/css/main.487cf981.css.map",
+    "main.c3479653.js.map": "/vit-menu/static/js/main.c3479653.js.map",
     "239.52d011a0.chunk.js.map": "/vit-menu/static/js/239.52d011a0.chunk.js.map",
     "213.37948a0a.chunk.js.map": "/vit-menu/static/js/213.37948a0a.chunk.js.map",
     "732.c1deefbd.chunk.js.map": "/vit-menu/static/js/732.c1deefbd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c9590c4c.css",
-    "static/js/main.d17f8293.js"
+    "static/css/main.487cf981.css",
+    "static/js/main.c3479653.js"
   ]
 }
