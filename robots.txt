@@ -1,5 +1,18 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*.json$
+Disallow: /*.xml$
+
+# Allow search engines to read JS and CSS files
+Allow: /*.js$
+Allow: /*.css$
+
+# Crawl-delay directive
+Crawl-delay: 10
 
 # Sitemaps
-Sitemap: https://anchitjain08.github.io/vit-menu/sitemap.xml 
+Sitemap: https://anchitjain08.github.io/vit-menu/sitemap.xml
+Sitemap: https://www.anchitjain08.github.io/vit-menu/sitemap.xml
