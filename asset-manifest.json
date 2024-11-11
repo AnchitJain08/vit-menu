@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/vit-menu/static/css/main.4cd768df.css",
+    "main.css": "/vit-menu/static/css/main.8ee7cd61.css",
     "main.js": "/vit-menu/static/js/main.ba7658a2.js",
     "static/js/239.52d011a0.chunk.js": "/vit-menu/static/js/239.52d011a0.chunk.js",
     "static/js/213.37948a0a.chunk.js": "/vit-menu/static/js/213.37948a0a.chunk.js",
     "static/js/732.c1deefbd.chunk.js": "/vit-menu/static/js/732.c1deefbd.chunk.js",
     "index.html": "/vit-menu/index.html",
-    "main.4cd768df.css.map": "/vit-menu/static/css/main.4cd768df.css.map",
+    "main.8ee7cd61.css.map": "/vit-menu/static/css/main.8ee7cd61.css.map",
     "main.ba7658a2.js.map": "/vit-menu/static/js/main.ba7658a2.js.map",
     "239.52d011a0.chunk.js.map": "/vit-menu/static/js/239.52d011a0.chunk.js.map",
     "213.37948a0a.chunk.js.map": "/vit-menu/static/js/213.37948a0a.chunk.js.map",
     "732.c1deefbd.chunk.js.map": "/vit-menu/static/js/732.c1deefbd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4cd768df.css",
+    "static/css/main.8ee7cd61.css",
     "static/js/main.ba7658a2.js"
   ]
 }
