@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://anchitjain08.github.io/vit-menu/sitemap.xml 
